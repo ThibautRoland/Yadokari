@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:10.16
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: thibaut
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: yadokari
+    volumes:
+      - pgsql-volume-container:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5432:5432
+    networks:
+      - yadokari-network
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - 8080:8080
+    networks:
+      - yadokari-network
+
+networks:
+  yadokari-network:
+
+volumes:
+  pgsql-volume-container:
