@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // Middleware for parsing JSON
+const Pool = require('pg').Pool
 
 const app = express();
 const port = 3000;
@@ -7,67 +8,73 @@ const port = 3000;
 // Middleware to parse JSON data
 app.use(bodyParser.json());
 
-// Route to handle HTTP GET requests
-app.get('/hello', (req, res) => {
-    res.send('Hello, Express!');
+
+
+const pool = new Pool({
+  user: 'thibaut',
+  host: 'localhost',
+  database: 'yadokari',
+  password: 'password',
+  port: 5432,
+})
+
+//CONTROLLER.js
+app.get('/doctors', (req, res) => {
+
+    pool.query('SELECT * FROM doctors', (error, results) => {
+        if (error) {
+          res.status(503).json(error)
+          return
+        }
+        res.status(200).json(results.rows)
+      })
+
 });
 
-// Sample data for HTTP GET request example
 
-const items2 = [
-    {
-        id: 1,
-        name: 'item1'
-    },
-    {
-        id: 2,
-        name: 'item2'
-    },
-    {
-        id: 3,
-        name: 'item3'
+app.get('/doctor/:id', (req, res) => {
+    const idString = req.params.id
+    const id = parseInt(idString, 10);
+    // console.log(typeof idInt);
+    // console.log(idInt);
+    // console.log(typeof id, id);
+    if (!Number.isInteger(id)){
+        res.status(400).json("id should be a number")
+        return
     }
-]
+    const query = {
+        text: 'SELECT * FROM doctors WHERE id = ($1)',
+        values: [id],
+      }
 
-app.get('/items', (req, res) => {
-    res.json(items2);
+    pool.query(query, (error, results) => {
+        if (error) {
+            res.status(500).json(error)
+            return            
+        }
+
+        if (results.rows === null) {
+            res.status(404).json("no doctors")
+            return
+        }
+        res.status(200).json(results.rows)
+      })
+
 });
 
-// Route to handle HTTP POST requests
-app.post('/items', (req, res) => {
-    const { item, id } = req.body;
-    items2.push({ item, id });
-    res.json(items2);
-});
+/*app.post('/doctor/near/{x}/{y}', (req, res) => {
 
-// Route to handle HTTP PUT requests
-app.put('/items/:id', (req, res) => {
-    const itemId = req.params.id;
+    pool.query('SELECT * FROM doctors', (error, results) => {
+        if (error) {
+          throw error
+        }
+        res.status(200).json(results.rows)
+      })
 
-    const updatedItem = req.body; // Use the whole body as the updated item
-    const itemIndex = items2.findIndex(item => item.id == itemId); // Find the index of the item to update
+});*/
 
 
-    if (itemIndex !== -1) {
-        items2[itemIndex] = updatedItem;
-        res.json(items2);
-    } else {
-        res.status(404).json({ message: 'Item not found' });
-    }
-});
 
-// Route to handle HTTP DELETE requests
-app.delete('/items/:id', (req, res) => {
-    const itemId = parseInt(req.params.id); // Parse the ID to an integer
-    const itemIndex = items2.findIndex(item => item.id === itemId); // Find the index of the item to delete
-
-    if (itemIndex !== -1) {
-        items2.splice(itemIndex, 1); // Remove 1 item at the found index
-        res.json(items2);
-    } else {
-        res.status(404).json({ message: 'Item not found' });
-    }
-});
 
 // Start the server
 app.listen(port, () => {
