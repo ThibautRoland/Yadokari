@@ -46,6 +46,8 @@ app.get('/doctor/:id', (req, res) => {
         text: 'SELECT * FROM doctors WHERE id = ($1)',
         values: [id],
       }
+    
+    console.log(query.values);
 
     pool.query(query, (error, results) => {
         if (error) {
@@ -62,16 +64,27 @@ app.get('/doctor/:id', (req, res) => {
 
 });
 
-/*app.post('/doctor/near/{x}/{y}', (req, res) => {
+app.get('/doctors/:distance/:long/:lat', (req, res) => {
 
-    pool.query('SELECT * FROM doctors', (error, results) => {
+    const long = req.params.long;
+    const lat = req.params.lat;
+    const distance = req.params.distance
+
+    const query = {
+        text: 'SELECT * FROM doctors WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(doctors.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(doctors.y)) *POWER(SIN(RADIANS(doctors.x - ($2)) / 2), 2))) <= ($3);',
+        values: [lat, long, distance]
+    }
+
+    console.log(query.values)
+
+    pool.query(query, (error, results) => {
         if (error) {
           throw error
         }
         res.status(200).json(results.rows)
       })
 
-});*/
+});
 
 
 
