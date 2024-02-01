@@ -7,12 +7,7 @@ CREATE TABLE speciality (
 -- Insert data into the speciality table
 INSERT INTO speciality (name) VALUES
     ('Anesthesiology'),
-    ('Neurology'),
-    ('Pediatrics'),
-    ('Physical medicine and rehabilitation'),
-    ('Preventive medicine'),
     ('Psychiatry'),
-    ('Radiation oncology'),
     ('Surgery');
 
 -- Create the doctors table with foreign key reference to speciality
@@ -20,6 +15,8 @@ CREATE TABLE doctors (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     age INT NOT NULL,
+    x FLOAT NOT NULL,
+    y FLOAT NOT NULL,
     speciality_key INT REFERENCES speciality(speciality_key)
 );
 
@@ -32,27 +29,28 @@ CREATE TABLE users (
 );
 
 -- Insert random data into the doctors table
-INSERT INTO doctors (name, age, speciality_key) VALUES
-    ('Doctor1', 35, 1),
-    ('Doctor2', 42, 3),
-    ('Doctor3', 28, 7),
-    ('Doctor4', 45, 5),
-    ('Doctor5', 38, 2),
-    ('Doctor6', 32, 6),
-    ('Doctor7', 50, 4),
-    ('Doctor8', 36, 1),
-    ('Doctor9', 29, 3),
-    ('Doctor10', 44, 7),
-    ('Doctor11', 33, 5),
-    ('Doctor12', 48, 2),
-    ('Doctor13', 39, 6),
-    ('Doctor14', 27, 4),
-    ('Doctor15', 46, 1),
-    ('Doctor16', 31, 3),
-    ('Doctor17', 37, 7),
-    ('Doctor18', 49, 5),
-    ('Doctor19', 34, 2),
-    ('Doctor20', 30, 6);
+INSERT INTO doctors (name, age, speciality_key, x, y) VALUES
+    ('Doctor1', 30, 1, -85.9186, -50.7877),
+    ('Doctor2', 35, 2, 69.4744, 110.2259),
+    ('Doctor3', 40, 3, -83.4802, 77.0913),
+    -- Add 17 more doctors with random data
+    ('Doctor4', 28, 1, 52.7484, 59.0248),
+    ('Doctor5', 45, 2, -23.1863, 36.4701),
+    ('Doctor6', 32, 3, 85.9621, -54.8893),
+    ('Doctor7', 38, 1, 49.3141, 0.5470),
+    ('Doctor8', 50, 2, 59.6419, -171.2571),
+    ('Doctor9', 33, 3, 11.2393, 46.9727),
+    ('Doctor10', 29, 1, 85.3684, -52.9191),
+    ('Doctor11', 42, 2, -13.2157, -33.4003),
+    ('Doctor12', 37, 3, -21.2245, -12.8190),
+    ('Doctor13', 31, 1, -16.3825, -2.8588),
+    ('Doctor14', 48, 2, 72.5068, -80.1911),
+    ('Doctor15', 34, 3, 3.5502, 118.5075),
+    ('Doctor16', 39, 1, 81.2487, 156.8244),
+    ('Doctor17', 46, 2, 86.6148, 108.2702),
+    ('Doctor18', 36, 3, 46.2764, -138.3286),
+    ('Doctor19', 41, 1, 17.2367, -120.7380),
+    ('Doctor20', 44, 2, -13.3424, -41.5426);
 
 -- Insert random data into the users table
 INSERT INTO users (name, age, gender) VALUES
