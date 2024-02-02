@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser'); // Middleware for parsing JSON
-const Pool = require('pg').Pool
+const doctorsController = require('./controller/doctorsController');
 
 const app = express();
 const port = 3000;
@@ -9,35 +9,11 @@ const port = 3000;
 app.use(bodyParser.json());
 
 
+app.use('/doctors', doctorsController);
 
-const pool = new Pool({
-  user: 'thibaut',
-  host: 'localhost',
-  database: 'yadokari',
-  password: 'password',
-  port: 5432,
-})
-
-//CONTROLLER.js
-app.get('/doctors', (req, res) => {
-
-    pool.query('SELECT * FROM doctors', (error, results) => {
-        if (error) {
-          res.status(503).json(error)
-          return
-        }
-        res.status(200).json(results.rows)
-      })
-
-});
-
-
-app.get('/doctor/:id', (req, res) => {
+/*app.get('/doctor/:id', (req, res) => {
     const idString = req.params.id
     const id = parseInt(idString, 10);
-    // console.log(typeof idInt);
-    // console.log(idInt);
-    // console.log(typeof id, id);
     if (!Number.isInteger(id)){
         res.status(400).json("id should be a number")
         return
@@ -46,13 +22,13 @@ app.get('/doctor/:id', (req, res) => {
         text: 'SELECT * FROM doctors WHERE id = ($1)',
         values: [id],
       }
-    
+
     console.log(query.values);
 
     pool.query(query, (error, results) => {
         if (error) {
             res.status(500).json(error)
-            return            
+            return
         }
 
         if (results.rows === null) {
@@ -62,9 +38,9 @@ app.get('/doctor/:id', (req, res) => {
         res.status(200).json(results.rows)
       })
 
-});
+});*/
 
-app.get('/doctors/:distance/:long/:lat', (req, res) => {
+/*app.get('/doctors/:distance/:long/:lat', (req, res) => {
 
     const long = req.params.long;
     const lat = req.params.lat;
@@ -84,7 +60,7 @@ app.get('/doctors/:distance/:long/:lat', (req, res) => {
         res.status(200).json(results.rows)
       })
 
-});
+});*/
 
 
 
