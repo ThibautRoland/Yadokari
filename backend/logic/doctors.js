@@ -10,13 +10,48 @@ function getAllDoctors(callback) {
             console.error("Error getting all doctors:", error);
             callback(error, []);
         } else {
-            // mapping
-            const doctors = allDoctorRows.map((row) => new doctorModel(row));
+            // mappinp         
+            const doctors = allDoctorRows.map((row => mapDoctorEntityToModel(row)))
+            console.log("first from logic ", doctors[0]);       
             callback(null, doctors);
         }
     });
 }
 
+function getOneDoctor(id, callback) {
+    db.findOneDoctor(id, (error, doctorRow) => {
+        if (error) {
+            console.error("Error getting this doctor:", error);
+           return callback(error, {});
+        }
+
+        // no results
+        if (doctorRow.length <1){
+           return callback(null, null);
+        }
+
+        // more than one doctor found
+        if (doctorRow.length >1){
+           return callback("no more than one doctor should be found", null);
+        }
+
+        const doctor = mapDoctorEntityToModel(doctorRow[0]);
+        return callback(null, doctor);
+    })
+}
+
+function mapDoctorEntityToModel(row){
+    const doctor = new doctorModel();
+    doctor.id = row.id;
+    doctor.name = row.name;
+    doctor.age = row.age;
+    doctor.x = row.x;
+    doctor.y = row.y;
+    doctor.speciality =  row.speciality_key;
+    return doctor
+}
+
 module.exports = {
     getAllDoctors,
+    getOneDoctor
 };
