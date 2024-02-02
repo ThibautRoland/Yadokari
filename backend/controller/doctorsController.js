@@ -9,6 +9,7 @@ res.status(200).json("ça marche");
  
 });
 
+// doctors/
 app.get('/', async (req, res) => {
   doctorLogic.getAllDoctors((error, doctors) => {
     if (error) {
@@ -43,5 +44,22 @@ app.get('/:id', async (req, res) => {
 
     
 });
+
+//doctors/:distance/:long/:lat
+app.get("/:distance/:long/:lat", async (req, res) => {
+    const long = req.params.long;
+    const lat = req.params.lat;
+    const distance = req.params.distance
+
+    doctorLogic.getDoctorsNearby(distance, long, lat, (error, doctorsNearby) => {
+        if (error) {
+            return res.status(500).json({ error: 'error => '+error });
+        }
+
+        if (doctorsNearby.length < 1) {
+            return res.status(404).json({ "message": 'no doctors found with id '+id });
+        }
+    })
+})
 
 module.exports = app;

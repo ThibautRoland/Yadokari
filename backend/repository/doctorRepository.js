@@ -39,8 +39,26 @@ function findOneDoctor(id, callback) {
     })
 }
 
+function findDoctorsNearby(distance, long, lat, callback) {
+
+    const query = {
+        text: 'SELECT * FROM doctors WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(doctors.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(doctors.y)) *POWER(SIN(RADIANS(doctors.x - ($2)) / 2), 2))) <= ($3);',
+        values: [lat, long, distance]
+    }
+
+    pool.query(query, (error, results) => {
+        if (error) {
+            return callback(error, [])
+        }
+    })
+
+    return callback(null, results.row);
+}
+
+
   module.exports = {
     findAllDoctors,
-    findOneDoctor
+    findOneDoctor,
+    findDoctorsNearby
 };
 

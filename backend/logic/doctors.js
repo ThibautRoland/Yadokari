@@ -40,6 +40,24 @@ function getOneDoctor(id, callback) {
     })
 }
 
+function getDoctorsNearby(distance, long, lat, callback) {
+    db.findDoctorsNearby(distance, long, lat, (error, doctorsNearbyRows) => {
+        if (error) {
+            console.error("error getting the doctors nearby:", error);
+            return callback(error, []);
+        }
+
+        // no results
+        if (doctorsNearbyRows.length < 1) {
+            return callback(null, []);
+        }
+
+        const doctorsNearby = doctorsNearbyRows.map((row) => mapDoctorEntityToModel(row))
+        console.log("first from logic ", doctorsNearby[0]);
+        return callback(null, doctorsNearby);
+    })
+}
+
 function mapDoctorEntityToModel(row){
     const doctor = new doctorModel();
     doctor.id = row.id;
@@ -53,5 +71,6 @@ function mapDoctorEntityToModel(row){
 
 module.exports = {
     getAllDoctors,
-    getOneDoctor
+    getOneDoctor,
+    getDoctorsNearby
 };
