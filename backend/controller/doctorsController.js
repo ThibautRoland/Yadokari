@@ -2,6 +2,7 @@
 const express = require('express');
 const doctorLogic = require('../logic/doctors');
 const app = express();
+const requestNearbyDoctor = require( '../model/request/RequestNearbyDoctor')
 
 app.get('/test',  (req, res) => {
   
@@ -46,12 +47,15 @@ app.get('/:id', async (req, res) => {
 });
 
 //doctors/:distance/:long/:lat
-app.get("/:distance/:long/:lat", async (req, res) => {
+app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
     const long = req.params.long;
     const lat = req.params.lat;
-    const distance = req.params.distance
+    const distance = req.params.distance;
+    const speciality = req.params.speciality;
 
-    doctorLogic.getDoctorsNearby(distance, long, lat, (error, doctorsNearby) => {
+    const reqqqqq = new requestNearbyDoctor(lat,long,distance,speciality)
+
+    doctorLogic.getDoctorsNearby(reqqqqq, (error, doctorsNearby) => {
         if (error) {
             return res.status(500).json({ error: 'error => '+error });
         }

@@ -1,5 +1,6 @@
 const db  = require('../repository/doctorRepository')
 const doctorModel = require( '../model/doctorModel')
+const RequestNearbyDoctor = require( '../model/request/RequestNearbyDoctor')
 
 // The logic file acts as a bridge between the data access layer (repository)
 // and the higher-level application logic.
@@ -40,8 +41,8 @@ function getOneDoctor(id, callback) {
     })
 }
 
-function getDoctorsNearby(distance, long, lat, callback) {
-    db.findDoctorsNearby(distance, long, lat, (error, doctorsNearbyRows) => {
+function getDoctorsNearby(requestNearbyDoctor, callback) {
+    db.findDoctorsNearby( requestNearbyDoctor, (error, doctorsNearbyRows) => {
         if (error) {
             console.error("error getting the doctors nearby:", error);
             return callback(error, []);

@@ -39,18 +39,24 @@ function findOneDoctor(id, callback) {
     })
 }
 
-function findDoctorsNearby(distance, long, lat, callback) {
+function findDoctorsNearby(requestNearbyDoctor , callback) {
 
     const query = {
-        text: 'SELECT * FROM doctors WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(doctors.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(doctors.y)) *POWER(SIN(RADIANS(doctors.x - ($2)) / 2), 2))) <= ($3);',
-        values: [lat, long, distance]
+        text: " SELECT * FROM doctors d LEFT JOIN speciality s ON d.speciality_key = s.speciality_key WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(d.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(d.y)) *POWER(SIN(RADIANS(d.x - ($2)) / 2), 2))) <= ($3) AND s.name = ($4);",
+        values: [requestNearbyDoctor.lat, 
+            requestNearbyDoctor.long, 
+            requestNearbyDoctor.distance, 
+            requestNearbyDoctor.speciality]
     }
+
+    console.log("callback : " ,callback);
+    console.log("speciality : " ,requestNearbyDoctor.speciality);
 
     pool.query(query, (error, results) => {
         if (error) {
             return callback(error, [])
         }
-        // console.log('result from pool.query:', results.rows);
+        console.log('result from pool.query:', results.rows);
         return callback(null, results.rows);
     })
 
