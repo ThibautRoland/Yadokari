@@ -47,13 +47,8 @@ function getDoctorsNearby(distance, long, lat, callback) {
             return callback(error, []);
         }
 
-        // no results
-        if (doctorsNearbyRows.length < 1) {
-            return callback(null, []);
-        }
-
         const doctorsNearby = doctorsNearbyRows.map((row) => mapDoctorEntityToModel(row))
-        console.log("first from logic ", doctorsNearby[0]);
+        // console.log("doctorsNearby from logic ", doctorsNearby);
         return callback(null, doctorsNearby);
     })
 }

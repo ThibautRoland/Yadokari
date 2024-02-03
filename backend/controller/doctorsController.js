@@ -5,7 +5,7 @@ const app = express();
 
 app.get('/test',  (req, res) => {
   
-res.status(200).json("ça marche");
+return res.status(200).json("ça marche");
  
 });
 
@@ -59,6 +59,8 @@ app.get("/:distance/:long/:lat", async (req, res) => {
         if (doctorsNearby.length < 1) {
             return res.status(404).json({ "message": 'no doctors found with id '+id });
         }
+
+        return res.status(200).json(doctorsNearby);
     })
 })
 

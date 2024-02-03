@@ -50,9 +50,10 @@ function findDoctorsNearby(distance, long, lat, callback) {
         if (error) {
             return callback(error, [])
         }
+        // console.log('result from pool.query:', results.rows);
+        return callback(null, results.rows);
     })
 
-    return callback(null, results.row);
 }
 
 
