@@ -24,8 +24,25 @@ services:
     networks:
       - yadokari-network
 
+  mysql:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment: 
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: history
+      MYSQL_USER: thibaut
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql-volume-container:/var/lib/mysql
+      - ./init-history.sql:/docker-entrypoint-initdb.d/init-history.sql
+    ports:
+      - 3306:3306
+    networks:
+      - yadokari-network
+
 networks:
   yadokari-network:
 
 volumes:
   pgsql-volume-container:
+  mysql-volume-container:

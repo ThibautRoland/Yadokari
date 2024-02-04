@@ -21,6 +21,17 @@ app.get('/', async (req, res) => {
   });
 });
 
+// testing history request
+app.get("/history", async (req, res) => {
+    doctorLogic.saveDoctorToHistory((error, result) => {
+        if (error) {
+            return res.status(500).json({ error: 'error => '+error });
+        }
+    
+        return res.status(200).json(result);
+    })
+})
+
 //doctors/:id
 app.get('/:id', async (req, res) => {
     const idString = req.params.id
@@ -67,5 +78,6 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
         return res.status(200).json(doctorsNearby);
     })
 })
+
 
 module.exports = app;

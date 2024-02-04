@@ -1,4 +1,5 @@
 const db  = require('../repository/doctorRepository')
+const historyDb = require('../repository/historyRepository')
 const doctorModel = require( '../model/doctorModel')
 const RequestNearbyDoctor = require( '../model/request/RequestNearbyDoctor')
 
@@ -54,6 +55,12 @@ function getDoctorsNearby(requestNearbyDoctor, callback) {
     })
 }
 
+function saveDoctorToHistory(callback) {
+    historyDb.historyRequest((error, historyResult) => {
+        return callback(null, historyResult);
+    })
+}
+
 function mapDoctorEntityToModel(row){
     const doctor = new doctorModel();
     doctor.id = row.id;
@@ -68,5 +75,6 @@ function mapDoctorEntityToModel(row){
 module.exports = {
     getAllDoctors,
     getOneDoctor,
-    getDoctorsNearby
+    getDoctorsNearby,
+    saveDoctorToHistory
 };
