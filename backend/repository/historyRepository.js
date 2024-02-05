@@ -1,13 +1,7 @@
 const mysql = require('mysql')
+require('dotenv').config()
 
-const db = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'thibaut',
-    password : 'password',
-    database: 'history',
-    port: 3306,
-    insecureAuth: true
-  });
+const db = initConnection();
 
 // const pool = mysql.createPool({
 //     connectionLimit: 10,
@@ -70,6 +64,23 @@ function save(historyModel) {
         }
     })
   }
+
+function initConnection() {
+    const user = process.env.MYSQL_USER || "thibaut"
+    const host = process.env.MYSQL_HOST || "localhost"
+    const database=  process.env.MYSQL_DB || "history"
+    const password= process.env.MYSQL_PWD || "password"
+    const port= process.env.MYSQL_PORT || 3306
+
+    return mysql.createConnection({
+        host     : host,
+        user     : user,
+        password : password,
+        database: database,
+        port: port,
+        insecureAuth: true
+      });
+}
 
 module.exports = {
     historyRequest,
