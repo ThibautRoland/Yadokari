@@ -57,9 +57,9 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
     const distance = req.params.distance;
     const speciality = req.params.speciality;
 
-    const req = new requestNearbyDoctor(lat,long,distance,speciality)
+    const requestInput = new requestNearbyDoctor(lat,long,distance,speciality)
 
-    doctorLogic.getDoctorsNearby(req, (error, doctorsNearby) => {
+    doctorLogic.getDoctorsNearby(requestInput, (error, doctorsNearby) => {
         if (error) {
             return res.status(500).json({ error: 'error => '+error });
         }
