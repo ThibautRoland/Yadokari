@@ -1,7 +1,7 @@
 const db  = require('../repository/doctorRepository')
 const historyDb = require('../repository/historyRepository')
 const doctorModel = require( '../model/doctorModel')
-const RequestNearbyDoctor = require( '../model/request/RequestNearbyDoctor')
+const historyModel = require('../model/historyModel');
 
 // The logic file acts as a bridge between the data access layer (repository)
 // and the higher-level application logic.
@@ -20,11 +20,24 @@ function getAllDoctors(callback) {
     });
 }
 
-function getOneDoctor(id, callback) {
-    db.findOneDoctor(id, (error, doctorRow) => {
+function mapHistoryModel(doctorName) {
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
+
+    return new historyModel(doctorName, formattedDate);
+}
+
+function getOneDoctor(doctorName, callback) {
+
+    // save quoi qu'il arrive
+    const historyInstance = mapHistoryModel(doctorName);
+    historyDb.save(historyInstance);
+
+
+    db.findOneDoctor(doctorName, (error, doctorRow) => {
         if (error) {
             console.error("Error getting this doctor:", error);
-           return callback(error, {});
+            return callback(error, {});
         }
 
         // no results
@@ -56,6 +69,10 @@ function getDoctorsNearby(requestNearbyDoctor, callback) {
 }
 
 function saveDoctorToHistory(callback) {
+    
+}
+
+function requestLogicHistory(callback) {
     historyDb.historyRequest((error, historyResult) => {
         return callback(null, historyResult);
     })
@@ -76,5 +93,6 @@ module.exports = {
     getAllDoctors,
     getOneDoctor,
     getDoctorsNearby,
-    saveDoctorToHistory
+    saveDoctorToHistory,
+    requestLogicHistory
 };

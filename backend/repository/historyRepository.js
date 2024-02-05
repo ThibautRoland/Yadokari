@@ -46,11 +46,32 @@ function historyRequest(callback) {
           console.log('Query results:', results);
           return callback(null, results);
         }
-    });
-    
-    // return callback(null, results.rows)
+    });   
 }
 
+function save(historyModel) {
+
+   /* const query = {
+      text: "INSERT INTO history (v) VALUES (?,?) ;",
+      values: [historyModel.doctorName, historyModel.dateSearched]
+    }*/
+
+    const query = "INSERT INTO history (doctorName, dateSearched) VALUES ('"+historyModel.doctorName+"', '"+historyModel.dateSearched+"')";
+
+//connection.query(sql, [name , email, address, city, country , password]
+
+    console.log(query)
+
+    db.query(query, (err, results) => {
+        if (err) {
+          console.log("[ERROR] : error saving in history with "+historyModel + " with error => "+err)
+        } else {
+          console.log("successfully inserted in history for doctorName "+historyModel.doctorName+" at date "+historyModel.dateSearched)
+        }
+    })
+  }
+
 module.exports = {
-    historyRequest
+    historyRequest,
+    save
 }

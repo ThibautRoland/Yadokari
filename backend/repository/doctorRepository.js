@@ -8,7 +8,6 @@ const pool = new Pool({
     port: 5432,
 })
 
-
 function findAllDoctors(callback) {
     pool.query('SELECT * FROM doctors', (error, results) => {
         if (error) {
@@ -21,11 +20,11 @@ function findAllDoctors(callback) {
     });
 }
 
-function findOneDoctor(id, callback) {
+function findOneDoctor(name, callback) {
 
     const query = {
-        text: "SELECT * FROM doctors WHERE id = ($1);",
-        values: [id]
+        text: "SELECT * FROM doctors WHERE name = ($1) LIMIT 1;",
+        values: [name]
     };
 
     pool.query(query, (error, results) => {
