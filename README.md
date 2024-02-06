@@ -1,9 +1,4 @@
 # Yadokari
 
-doc for test
+docker-compose build api
 
-https://guides.rubyonrails.org/testing.html
-
-gem install minitest
-
-bin/rails test test/tests.rb -n test_palindrome.rb
