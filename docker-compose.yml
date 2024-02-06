@@ -5,11 +5,11 @@ services:
     build: 
       dockerfile: ./backend/Dockerfile 
     ports: 
-      - 3000:3000 
+      - 3001:3000 
     env_file: 
       - ./backend/dev.env 
     networks: 
-     - yadokari-network 
+      - yadokari-network 
      
   postgres:
     image: postgres:10.16

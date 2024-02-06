@@ -12,11 +12,11 @@ const db = initConnection();
 //   });
   
 db.connect((err) => {
-if (err) {
-    console.error('Error connecting to MySQL:', err);
-} else {
-    console.log('Connected to MySQL database');
-}
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+    } else {
+        console.log('Connected to MySQL database');
+    }
 });
 
 function historyRequest(callback) {
@@ -73,10 +73,10 @@ function initConnection() {
     const port= process.env.MYSQL_PORT || 3306
 
     return mysql.createConnection({
-        host     : host,
         user     : user,
-        password : password,
+        host     : host,
         database: database,
+        password : password,
         port: port,
         insecureAuth: true
       });
