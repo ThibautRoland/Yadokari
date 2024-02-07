@@ -1,42 +1,32 @@
 
 type IndexProps = {
-  histories: any
-  d: any
+  doctors: any
+  doctor: any
 }
 
-export default function Home({ histories, d }:IndexProps) {
+export default function Home({ doctors, doctor }:IndexProps) {
 
-  //console.log(histories)
-  console.log(d)
+  console.log("from home function", doctors)
+  async function test(){
 
-  async function searchDoctor(doctorName:string){
-    console.log(doctorName)
-   // const res = await fetch(`http://127.0.0.1:3001/doctors/${doctorName}`)
-
-    const res = await fetch(`http://localhost:3001/doctors/${doctorName}`, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      mode: "no-cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": 'true',
-      }
-    });
-    console.log(res)
   }
+
+  const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
+    const res = await fetch('http://localhost:3000/doctors')
+  const posts = await res.json()
+  console.log(posts)
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
       <div className="flex flex-col">
 
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            
-            onClick = { () => searchDoctor('Doctor8') }>OU C KIL EST</button>
-         
+      <button onClick={handleClick}>
+      Click me!
+    </button>
 
-      {histories.map((d: any) => (
+      {doctors.map((d: any) => (
 
             <div key = {d.id}>
                 {d.doctorName} - {d.dateSearched}
@@ -52,19 +42,19 @@ export default function Home({ histories, d }:IndexProps) {
 
 export async function getServerSideProps() {
 
-  const res = await fetch('http://localhost:3001/doctors/history')
-  const histories = await res.json()
+  const res = await fetch('http://localhost:3000/doctors')
+  const doctors = await res.json()
 
-  //console.log("from getServersideprops" +histories)
+  console.log("from getServersideprops doctors:" +doctors);
 
   const resD = await fetch('http://localhost:3001/doctors/Doctor6')
-  const resDJ = await resD.json()
-  console.log("from getServersideprops search docteur" +resDJ)
+  const doctor = await resD.json();
+  console.log("from getServersideprops search docteur" +doctor);
 
   return {
     props: {
-      histories,
-      d: resDJ
+      doctors,
+      doctor
     },
   }
 }
