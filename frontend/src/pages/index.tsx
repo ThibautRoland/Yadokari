@@ -1,24 +1,22 @@
+import React, { useState } from 'react';
 
 type IndexProps = {
   doctors: any
-  doctor: any
 }
 
-export default function Home({ doctors, doctor }:IndexProps) {
+export default function Index({ doctors}:IndexProps) {
 
-  console.log("from home function", doctors)
-  async function test(){
-
-  }
+const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
-    const res = await fetch('http://localhost:3000/doctors')
-  const posts = await res.json()
-  console.log(posts)
+    const resDoctor6 = await fetch('http://localhost:3001/doctors/Doctor6')
+    const doctor6 = await resDoctor6.json()
+    console.log(doctor6)
+    setIsClicked(!isClicked);
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-red-100">
 
       <div className="flex flex-col">
 
@@ -26,10 +24,15 @@ export default function Home({ doctors, doctor }:IndexProps) {
       Click me!
     </button>
 
+    <div className={`bg-blue-500 px-4 py-2 rounded ${isClicked ? '' : 'hidden'} `}>
+          BOUYAKACHA
+    </div>
+
+
       {doctors.map((d: any) => (
 
             <div key = {d.id}>
-                {d.doctorName} - {d.dateSearched}
+                {d.id} - {d.name} - {d.speciality}
             </div>
             )) }
 
@@ -42,19 +45,14 @@ export default function Home({ doctors, doctor }:IndexProps) {
 
 export async function getServerSideProps() {
 
-  const res = await fetch('http://localhost:3000/doctors')
+  const res = await fetch('http://localhost:3001/doctors')
   const doctors = await res.json()
 
   console.log("from getServersideprops doctors:" +doctors);
 
-  const resD = await fetch('http://localhost:3001/doctors/Doctor6')
-  const doctor = await resD.json();
-  console.log("from getServersideprops search docteur" +doctor);
-
   return {
     props: {
-      doctors,
-      doctor
+      doctors
     },
   }
 }
