@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import {Layout} from '../app/layout';
+import { searchDoctor } from '../api/doctor';
+import { Doctor} from '../interface/doctor';
+import { DoctorCard } from '../components/doctorCard';
 
 type IndexProps = {
-  doctors: any
+  doctors: Array<Doctor>
 }
 
 export default function aaa({ doctors}:IndexProps) {
@@ -10,25 +13,40 @@ export default function aaa({ doctors}:IndexProps) {
 const [stateSearch, setStateSearch] = useState({
   searchStarted : false,
   doctorInput : '',
-  doctorFound : false
+  doctorFound : false,
+  message : "bjr",
+  doctor :  {} as Doctor | null,
 });
 
-  const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
-    console.log("first ",stateSearch)
-    const resDoctor6 = await fetch('http://localhost:3001/doctors/Doctor6')
-    const doctor6 = await resDoctor6.json()
+  const handleChangeInput = async (event: any) => {
+    
+    const inputValue = event.currentTarget.previousElementSibling.value
 
-    var copy = stateSearch
-    copy.searchStarted = !copy.searchStarted
-    setStateSearch({
-      searchStarted : !stateSearch.searchStarted,
-  doctorInput : '',
-  doctorFound : false,
-  });
+    /*const resDoctor = await fetch(`http://localhost:3001/doctors/${InputValue}`)
+    console.log("resDoctor status ",resDoctor.status)
+    const doctor = await resDoctor.json()*/
 
+    const res = await searchDoctor(inputValue)
 
+    const updatedSearchState = {
+      ...stateSearch
+    };
 
-  };
+    if (res.status == 404) {
+      updatedSearchState.message = "no doctor found"
+      updatedSearchState.doctorFound = false
+      
+    } else if (res.status == 200){
+      updatedSearchState.message = "doctor found"
+      updatedSearchState.doctorFound = true
+      updatedSearchState.doctor = res.doctor
+    } else {
+      updatedSearchState.message = "sorry, come back later"
+      updatedSearchState.doctorFound = false
+    }
+
+    setStateSearch(updatedSearchState);
+  }
 
   return (
     <Layout>
@@ -36,20 +54,17 @@ const [stateSearch, setStateSearch] = useState({
 
       <div className="flex flex-col">
 
-      <button onClick={handleClick}>
-      Click me!
-    </button>
+    <input type="text"/>
+    <button onClick={ handleChangeInput}> Search Doctor</button>
+    <div>{stateSearch.message}</div>
 
-    <div className={`bg-blue-500 px-4 py-2 rounded ${stateSearch.searchStarted ? 'hidden' : ''} `}>
-          BOUYAKACHA
+    <div className={`${stateSearch.doctorFound ? '' : 'hidden'}`}>
+    
+      <DoctorCard doctor={stateSearch.doctor!}/>
     </div>
 
-
-      {doctors.map((d: any) => (
-
-            <div key = {d.id}>
-                {d.id} - {d.name} - {d.speciality}
-            </div>
+      {doctors.map((d: Doctor, i: number) => (
+                <DoctorCard key = {i} doctor={d}/>
             )) }
 
           </div>
