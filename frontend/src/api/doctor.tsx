@@ -5,7 +5,7 @@ type ResSearch = {
     status : number
   }
 
-export async function  searchDoctor(name : string) : Promise<ResSearch> {
+export async function  searchDoctorFromApi(name : string) : Promise<ResSearch> {
     
     const resDoctor = await fetch(`http://localhost:3001/doctors/${name}`)
 

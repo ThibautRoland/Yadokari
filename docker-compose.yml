@@ -9,7 +9,7 @@ services:
     env_file: 
       - ./backend/dev.env 
     networks: 
-      - yadokari-network 
+      - yadokari-network
      
   postgres:
     image: postgres:10.16
