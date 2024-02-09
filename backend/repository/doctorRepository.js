@@ -36,7 +36,7 @@ function findOneDoctor(name, callback) {
 function findDoctorsNearby(requestNearbyDoctor , callback) {
 
     const query = {
-        text: " SELECT * FROM doctors d LEFT JOIN speciality s ON d.speciality_key = s.speciality_key WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(d.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(d.y)) *POWER(SIN(RADIANS(d.x - ($2)) / 2), 2))) <= ($3) AND s.name = ($4);",
+        text: " SELECT d.name, d.age, d.x, d.y, s.name AS speciality FROM doctors d LEFT JOIN speciality s ON d.speciality_key = s.speciality_key WHERE 6371 * 2 * ASIN( SQRT(POWER(SIN(RADIANS(d.y - ($1)) / 2), 2) + COS(RADIANS($1)) * COS(RADIANS(d.y)) *POWER(SIN(RADIANS(d.x - ($2)) / 2), 2))) <= ($3) AND s.name = ($4);",
         values: [requestNearbyDoctor.lat,
             requestNearbyDoctor.long,
             requestNearbyDoctor.distance,
