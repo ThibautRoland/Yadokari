@@ -48,15 +48,15 @@ export default function aaa({ doctors}:IndexProps) {
 
 
       <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
-      <DoctorList doctors={doctors}/>
+        <DoctorList doctors={doctors}/>
       </div>
 
       <div className={`${stateNumber == 1 ? '' : 'hidden'}`}>
-      <SearchDoctor/>
+        <SearchDoctor/>
       </div>
 
       <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
-      <NearbyDoctor/>
+        <NearbyDoctor/>
       </div>
 
     </main>
