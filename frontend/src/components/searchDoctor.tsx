@@ -31,15 +31,27 @@ export function SearchDoctor () {
         doctor :  {} as Doctor | null,
       });
 
-    const handleChangeInput = async (event: any) => {
-    
+    const handleEnterPress = async (event:any) => {
+        const inputValue = event.currentTarget.value
+        if (event.key === "Enter") {
+            handleChangeInput(inputValue)
+        }
+    }
+
+    const handleClick = async (event:any) => {
         const inputValue = event.currentTarget.previousElementSibling.value
+        handleChangeInput(inputValue)
+    }
+
+    const handleChangeInput = async (input:string) => {
+    
+
     
         /*const resDoctor = await fetch(`http://localhost:3001/doctors/${InputValue}`)
         console.log("resDoctor status ",resDoctor.status)
         const doctor = await resDoctor.json()*/
     
-        const res = await searchDoctorFromApi(inputValue)
+        const res = await searchDoctorFromApi(input)
     
         const updatedSearchState = {
           ...stateSearch
@@ -63,8 +75,8 @@ export function SearchDoctor () {
     
     return     <div>
         <h1> search one doctor </h1>
-            <input type="text"/>
-            <button onClick={ handleChangeInput}> Search Doctor</button>
+            <input type="text" onKeyDown={handleEnterPress}/>
+            <button onClick={ handleClick}> Search Doctor</button>
             <div>{stateSearch.message}</div>
 
             <div className={`${stateSearch.doctorFound ? '' : 'hidden'}`}>

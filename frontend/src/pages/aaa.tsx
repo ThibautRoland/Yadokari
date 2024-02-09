@@ -25,13 +25,6 @@ export default function aaa({ doctors}:IndexProps) {
     <Layout>
     <main className="flex min-h-screen flex-col p-8">
 
-    <div className="flex flex-col">
-      <h1> nearbyByDoctor</h1>
-      <p> TODO </p>
-    </div>
-
-
-
     <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
 
 
