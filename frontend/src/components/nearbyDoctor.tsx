@@ -12,24 +12,42 @@ export function NearbyDoctor () {
     const longRef = useRef(null)
     const latRef = useRef(null)
 
-    // const [stateSearch, setStateSearch] = useState({
-    //     searchStarted : false,
-    //     doctorInput : '',
-    //     doctorFound : false,
-    //     message : "bjr",
-    //     doctor :  {} as Doctor | null,
-    //   });
+    const [searchState, setSearchState] = useState({
+        searchStarted : false,
+        doctorFound : false,
+        message : "",
+        nearbyDoctors :  [] as Doctor[] | null,
+      });
 
-    const handleSearch = (event:any) => {
+    const handleSearch = async (event:any) => {
       console.log(specialtyRef.current.value)
       const specialty = specialtyRef.current.value
       const distance = distanceRef.current.value
       const long = longRef.current.value
       const lat = latRef.current.value
 
-      const nearbyDoctors = searchNearbyDoctorsFromApi(long, lat, distance, specialty)
-      console.log(nearbyDoctors)
+      const res = await searchNearbyDoctorsFromApi(long, lat, distance, specialty)
+      console.log(res.status)
+
+      const updatedSearchState = {...searchState}
+      if (res.status === 404) {
+        updatedSearchState.message = "No doctor found"
+        updatedSearchState.doctorFound = false
+      } else if (res.status === 200) {
+        updatedSearchState.message = "We found doctors that suit your request!"
+        updatedSearchState.doctorFound = true
+        updatedSearchState.nearbyDoctors = res.doctors
+      } else {
+        updatedSearchState.message = "sorry, come back later"
+        updatedSearchState.doctorFound = false
+      }
+
+      setSearchState(updatedSearchState)
     }
+
+    // const handleStateChanges = (long, lat, distance, specialty) => {
+
+    // }
     
     return     <div>
         <h1 className="text-3xl"> Find a doctor near you that suits you! </h1>
@@ -49,7 +67,16 @@ export function NearbyDoctor () {
                 <input type="text" ref={latRef}/>
               </div>
             </div>
-            <button onClick={handleSearch}>Submit search</button>
+            <button className="mb-3" onClick={handleSearch}>Submit search</button>
+
+            <h2 className='m-3'>{searchState.message}</h2>
+
+            <div className={`grid grid-cols-4 space-y-2 gap-2 ${searchState.doctorFound ? '' : 'hidden'}`}>
+
+              {searchState.nearbyDoctors!.map((d:Doctor, i:number) => (
+                <DoctorCard key={i} doctor={d}/>
+              ))}
+            </div>
 
         </div>
 

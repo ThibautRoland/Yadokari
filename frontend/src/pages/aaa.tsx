@@ -18,7 +18,6 @@ export default function aaa({ doctors}:IndexProps) {
   function handleClik(event : any, idTab : number){
 
     setStateNumber(idTab)
-    console.log("cliked " , idTab)
   }
 
   return (
@@ -39,7 +38,9 @@ export default function aaa({ doctors}:IndexProps) {
         </a>
     </li>
     <li className="me-2" onClick={(event) => handleClik(event, 2)}>
-        <a href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">Settings</a>
+        <a href="#" className="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300">
+          Doctors Nearby
+        </a>
     </li>
 </ul>
 <div className=''>
