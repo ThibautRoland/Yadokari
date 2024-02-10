@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {Layout} from '../components/layout';
 import { searchDoctorFromApi } from '../api/doctor';
 import { Doctor} from '../interface/doctor';
@@ -14,9 +14,35 @@ type IndexProps = {
 export default function aaa({ doctors}:IndexProps) {
 
   const [stateNumber, setStateNumber] = useState(0);
+  const [stateLink, setStateLink] = useState<HTMLAnchorElement | null>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null)
+
+  // useEffect(() => {
+  //   setStateLink((prevElement) => {
+  //     if (!prevElement) {
+  //       return linkRef.current;
+  //     }
+  //     return prevElement;
+  //   });
+  // }, [])
+
+  useEffect(() => {
+    setStateLink(linkRef.current)
+  }, [])
+
+  console.log(stateLink);
+
 
   function handleClik(event : any, idTab : number){
-
+    const fakeLink = event.currentTarget.children[0]
+    if (idTab === stateNumber) {
+      return 
+    }
+    stateLink!.classList.add('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
+    stateLink!.classList.remove('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
+    fakeLink.classList.add('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
+    fakeLink.classList.remove('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
+    setStateLink(fakeLink)
     setStateNumber(idTab)
   }
 
@@ -28,7 +54,7 @@ export default function aaa({ doctors}:IndexProps) {
 
 
     <li className="me-2" onClick={(event) => handleClik(event, 0)}>
-        <a href="#" aria-current="page" className="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">
+        <a href="#" aria-current="page" ref={linkRef} className="inline-block p-4 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500">
           Doctor List
         </a>
     </li>
