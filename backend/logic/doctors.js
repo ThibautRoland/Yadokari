@@ -62,7 +62,7 @@ function getDoctorsNearby(requestNearbyDoctor, callback) {
             return callback(error, []);
         }
 
-        const doctorsNearby = doctorsNearbyRows.map((row) => mapDoctorEntityToModel(row))
+        const doctorsNearby = doctorsNearbyRows.map((row) => mapNearbyDoctors(row))
         // console.log("doctorsNearby from logic ", doctorsNearby);
         return callback(null, doctorsNearby);
     })
@@ -86,6 +86,16 @@ function mapDoctorEntityToModel(row){
     doctor.x = row.x;
     doctor.y = row.y;
     doctor.speciality =  row.speciality_key;
+    return doctor
+}
+
+function mapNearbyDoctors(row) {
+    const doctor = new doctorModel();
+    doctor.name = row.name;
+    doctor.age = row.age;
+    doctor.x = row.x;
+    doctor.y = row.y;
+    doctor.speciality = row.speciality
     return doctor
 }
 
