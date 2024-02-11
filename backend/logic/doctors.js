@@ -12,9 +12,9 @@ function getAllDoctors(callback) {
             console.error("Error getting all doctors:", error);
             callback(error, []);
         } else {
-            // mappinp         
+            // mappinp
             const doctors = allDoctorRows.map((row => mapDoctorEntityToModel(row)))
-            console.log("first from logic ", doctors[0]);       
+            console.log("first from logic ", doctors[0]);
             callback(null, doctors);
         }
     });
@@ -68,13 +68,29 @@ function getDoctorsNearby(requestNearbyDoctor, callback) {
     })
 }
 
-function saveDoctorToHistory(callback) {
-    
-}
-
 function requestLogicHistory(callback) {
     historyDb.historyRequest((error, historyResult) => {
         return callback(null, historyResult);
+    })
+}
+
+function saveDoctor(doctor, callback){
+    db.saveDoctor(doctor, (error, insertResult)=>{
+
+        if (error) {
+            console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + err);
+            return callback(error, []);
+        }
+
+        console.log("Successfully inserted new doctor " + doctor);
+
+        if (insertResult.length !=1  ){
+            const errorLength = "should had one id returned from saving bug got"+ insertResult.length
+            return callback(errorLength, null);
+         }
+
+        // TOUT VA BIEN
+        return callback(null, insertResult[0].id);
     })
 }
 
@@ -103,6 +119,6 @@ module.exports = {
     getAllDoctors,
     getOneDoctor,
     getDoctorsNearby,
-    saveDoctorToHistory,
-    requestLogicHistory
+    requestLogicHistory,
+    saveDoctor
 };
