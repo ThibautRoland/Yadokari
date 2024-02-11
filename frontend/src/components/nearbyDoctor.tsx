@@ -19,8 +19,13 @@ export function NearbyDoctor () {
         nearbyDoctors :  [] as Doctor[] | null,
       });
 
-    const handleSearch = async (event:any) => {
-      console.log(specialtyRef.current.value)
+      /*const handleEnterPress: React.KeyboardEventHandler<HTMLInputElement> = async (event) => {
+        const inputValue = event.currentTarget.value
+        [...]
+    }*/
+
+    const handleSearch: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
+
       const specialty = specialtyRef.current.value
       const distance = distanceRef.current.value
       const long = longRef.current.value
