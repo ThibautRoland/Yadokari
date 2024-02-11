@@ -50,7 +50,6 @@ app.get('/:name', async (req, res) => {
     
 });
 
-//doctors/:distance/:long/:lat
 app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
     const long = req.params.long;
     const lat = req.params.lat;
@@ -72,5 +71,20 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
     })
 })
 
+app.post("/", async (req, res) => {
+        return res.status(200).json("this is a post");
+})
+
+app.put("/:id", async (req, res) => {
+    return res.status(200).json("this is a put");
+})
+
+app.patch("/:id", async (req, res) => {
+    return res.status(200).json("this is a patch");
+})
+
+app.delete("/:id", async (req, res) => {
+    return res.status(200).json("this is a delete");
+})
 
 module.exports = app;

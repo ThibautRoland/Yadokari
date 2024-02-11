@@ -56,6 +56,21 @@ function findDoctorsNearby(requestNearbyDoctor , callback) {
 
 }
 
+function insertDoctor(doctor, callback){
+    const query = `INSERT INTO 'doctors' ('name', 'age', 'x', 'y', 'speciality_key') VALUES ( '${doctor.name}' , ${doctor.age}, ${doctor.x}, ${doctor.y}, ${doctor.speciality_key} )`
+
+    db.query(query, (err, results) => {
+        if (err) {
+          console.log("[ERROR] : error saving in doctor with "+doctor + " with error => "+err)
+        } else {
+          console.log("successfully inserted new doctor "+historyModel.doctorName+" at date "+historyModel.dateSearched)
+          return callback(error, [])
+        }
+    })
+
+
+}
+
 function initPool(){
     const user = process.env.POSTGRES_USER || "thibaut"
     const host = process.env.POSTGRES_HOST || "localhost"
