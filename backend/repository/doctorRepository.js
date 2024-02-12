@@ -66,34 +66,22 @@ function saveDoctor(doctor, callback) {
         }
 
         return callback(null, results.rows);
-        
+
     });
 }
 
-function patchDoctor(updatedFields, callback){
+function patchDoctor(updatedFields, id, callback){
 
     const fieldNames = Object.keys(updatedFields);
     const fieldValues = fieldNames.map(fieldName => updatedFields[fieldName]);
 
-    // Create the SET part of the SQL query
     const setClause = fieldNames.map((fieldName, index) => `${fieldName} = $${index + 1}`).join(', ');
 
-    // Build the SQL query
-    const query = `UPDATE doctors SET ${setClause} WHERE id = $${fieldValues.length + 1} RETURNING id`;
-    const values = [...fieldValues, doctorId];
+    const query = `UPDATE doctors SET ${setClause} WHERE id = $${fieldValues.length + 1} RETURNING *`;
+    const values = [...fieldValues, id];
 
-    // Execute the query
     pool.query(query, values, (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-
-        // Check if any rows were affected
-        if (results.rowCount === 0) {
-            return callback(new Error('Doctor not found'), null);
-        }
-
-        return callback(null, results.rows[0].id);
+        return callback(err, results);
     });
 }
 
@@ -118,6 +106,7 @@ function initPool(){
     findAllDoctors,
     findOneDoctor,
     findDoctorsNearby,
-    saveDoctor
+    saveDoctor,
+    patchDoctor
 };
 

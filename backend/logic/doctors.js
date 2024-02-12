@@ -94,23 +94,28 @@ function saveDoctor(doctor, callback){
     })
 }
 
-function patchDoctor(toPatch, callback){
-    db.patchDoctor(toPatch, (error, insertResult)=>{
+function patchDoctor(toPatch, id, callback){
+    db.patchDoctor(toPatch, id, (error, patchResult)=>{
 
         if (error) {
-            console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + err);
+            console.log("[ERROR] : error patching in doctor with id" + id + " with error => " + error);
             return callback(error, null);
         }
 
-        console.log("Successfully inserted new doctor " + doctor);
+        console.log("Successfully patch doctor with id " + id);
 
-        if (insertResult.length !=1  ){
-            const errorLength = "should had one id returned from saving but got "+ insertResult.length
+        if (patchResult.rowCount !=1  ){
+            const errorRowCount = "should had update one doctor but updated "+ patchResult.rowCount
+            return callback(errorRowCount, null);
+         }
+
+         if (patchResult.rows.length !=1  ){
+            const errorLength = "should had one doctor returned from patching but got "+ patchResult.rows.length
             return callback(errorLength, null);
          }
 
         // TOUT VA BIEN
-        return callback(null, insertResult[0].id);
+        return callback(null, patchResult.rows[0]);
     })
 }
 

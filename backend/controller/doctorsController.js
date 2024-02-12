@@ -83,7 +83,7 @@ app.post("/", async (req, res) => {
             return res.status(500).json({ error: 'error => '+error });
         }
 
-        return res.status(200).json({ id: id });
+        return res.status(201).json({ id: id });
     })
 
 })
@@ -115,14 +115,12 @@ app.patch("/:id", async (req, res) => {
         return res.status(422).json("should patch at least one field")
     }
 
-    toPatch.id = id
-
-    doctorLogic.patchDoctor(toPatch, (error, id) => {
-        /*if (error) {
+    doctorLogic.patchDoctor(toPatch, id, (error, doctorPatched) => {
+        if (error) {
             return res.status(500).json({ error: 'error => '+error });
         }
 
-        return res.status(200).json({ id: id });*/
+        return res.status(200).json(doctorPatched);
     })
 })
 
