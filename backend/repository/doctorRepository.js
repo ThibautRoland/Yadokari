@@ -56,19 +56,17 @@ function findDoctorsNearby(requestNearbyDoctor , callback) {
 
 }
 
-function insertDoctor(doctor, callback){
-    const query = `INSERT INTO 'doctors' ('name', 'age', 'x', 'y', 'speciality_key') VALUES ( '${doctor.name}' , ${doctor.age}, ${doctor.x}, ${doctor.y}, ${doctor.speciality_key} )`
+function saveDoctor(doctor, callback) {
+    const query = 'INSERT INTO doctors (name, age, x, y, speciality_key) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+    const values = [doctor.name, doctor.age, doctor.x, doctor.y, doctor.specialityKey];
 
-    db.query(query, (err, results) => {
+    pool.query(query, values, (err, results) => {
         if (err) {
-          console.log("[ERROR] : error saving in doctor with "+doctor + " with error => "+err)
+            return callback(err, null);
         } else {
-          console.log("successfully inserted new doctor "+historyModel.doctorName+" at date "+historyModel.dateSearched)
-          return callback(error, [])
+            return callback(null, results.rows);
         }
-    })
-
-
+    });
 }
 
 function initPool(){
@@ -91,6 +89,7 @@ function initPool(){
   module.exports = {
     findAllDoctors,
     findOneDoctor,
-    findDoctorsNearby
+    findDoctorsNearby,
+    saveDoctor
 };
 
