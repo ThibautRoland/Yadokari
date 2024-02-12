@@ -79,13 +79,33 @@ function saveDoctor(doctor, callback){
 
         if (error) {
             console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + err);
-            return callback(error, []);
+            return callback(error, null);
         }
 
         console.log("Successfully inserted new doctor " + doctor);
 
         if (insertResult.length !=1  ){
-            const errorLength = "should had one id returned from saving bug got"+ insertResult.length
+            const errorLength = "should had one id returned from saving but got "+ insertResult.length
+            return callback(errorLength, null);
+         }
+
+        // TOUT VA BIEN
+        return callback(null, insertResult[0].id);
+    })
+}
+
+function patchDoctor(toPatch, callback){
+    db.patchDoctor(toPatch, (error, insertResult)=>{
+
+        if (error) {
+            console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + err);
+            return callback(error, null);
+        }
+
+        console.log("Successfully inserted new doctor " + doctor);
+
+        if (insertResult.length !=1  ){
+            const errorLength = "should had one id returned from saving but got "+ insertResult.length
             return callback(errorLength, null);
          }
 
@@ -120,5 +140,6 @@ module.exports = {
     getOneDoctor,
     getDoctorsNearby,
     requestLogicHistory,
-    saveDoctor
+    saveDoctor,
+    patchDoctor
 };

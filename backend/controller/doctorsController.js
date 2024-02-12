@@ -89,11 +89,41 @@ app.post("/", async (req, res) => {
 })
 
 app.put("/:id", async (req, res) => {
+    fake = {
+        "age" : 45,
+        "name" : "thibaut"
+    }
+
+    // put age = 25
+
+    resultat = {
+        "age" : 25,
+        "name" : null
+    }
+
+    const doctor = req.body;
     return res.status(200).json("this is a put");
 })
 
 app.patch("/:id", async (req, res) => {
-    return res.status(200).json("this is a patch");
+
+    const id = req.params.id;
+
+    const toPatch = req.body;
+
+    if (toPatch.name == null && toPatch.age == null && toPatch.x == null && toPatch.y == null && toPatch.specialityKey == null) {
+        return res.status(422).json("should patch at least one field")
+    }
+
+    toPatch.id = id
+
+    doctorLogic.patchDoctor(toPatch, (error, id) => {
+        /*if (error) {
+            return res.status(500).json({ error: 'error => '+error });
+        }
+
+        return res.status(200).json({ id: id });*/
+    })
 })
 
 app.delete("/:id", async (req, res) => {
