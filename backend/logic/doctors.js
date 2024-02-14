@@ -1,6 +1,7 @@
 const db  = require('../repository/doctorRepository')
 const historyDb = require('../repository/historyRepository')
 const doctorModel = require( '../model/doctorModel')
+const doctorEntity = require( '../model/entity/doctorEntity')
 const historyModel = require('../model/historyModel');
 
 // The logic file acts as a bridge between the data access layer (repository)
@@ -94,8 +95,10 @@ function saveDoctor(doctor, callback){
     })
 }
 
-function patchDoctor(toPatch, id, callback){
-    db.patchDoctor(toPatch, id, (error, patchResult)=>{
+/*function patchDoctor(reqBody, id, callback){
+    const doctorEntity = mapDoctorModelToEntity(reqBody, id)
+
+    db.patchDoctor(doctorEntity, id, (error, patchResult)=>{
 
         if (error) {
             console.log("[ERROR] : error patching in doctor with id" + id + " with error => " + error);
@@ -114,8 +117,52 @@ function patchDoctor(toPatch, id, callback){
             return callback(errorLength, null);
          }
 
+         const doctorModel = mapDoctorEntityToModel(patchResult.rows[0])
+
         // TOUT VA BIEN
-        return callback(null, patchResult.rows[0]);
+        return callback(null, doctorModel);
+    })
+}*/
+
+function putDoctor(reqBody, id, callback) {
+    const doctorEntity = mapDoctorModelToEntity(reqBody, id)
+    db.putDoctor(doctorEntity, id, (error, putResult) => {
+
+        if (error) {
+            console.log("[ERROR] : error put request doctor with id " + id + " with error => " + error);
+            return callback(error, null);
+        }
+
+         if (putResult.rows.length !=1  ){
+            const errorLength = "should had update one doctor but updated "+ putResult.rows.length
+            return callback(errorLength, null);
+         }
+
+        const doctorModel = mapDoctorEntityToModel(putResult.rows[0])
+
+        // tout va bien
+        return callback(null, doctorModel);
+    })
+}
+
+function deleteDoctor(id, callback) {
+
+    db.deleteDoctor(id, (error, deleteResult) => {
+
+        if (error) {
+            console.log("[ERROR] : error delete request doctor with id " + id + " with error => " + error);
+            return callback(error, null);
+        }
+
+         if (deleteResult.rows.length <=1  ){
+            const errorLength = "no doctor deleted "+ deleteResult.rows.length
+            return callback(errorLength, null);
+         }
+
+        const doctorModel = mapDoctorEntityToModel(deleteResult.rows[0])
+
+        // tout va bien
+        return callback(error, deleteResult);
     })
 }
 
@@ -128,6 +175,17 @@ function mapDoctorEntityToModel(row){
     doctor.y = row.y;
     doctor.speciality =  row.speciality_key;
     return doctor
+}
+
+function mapDoctorModelToEntity(m, id){
+    const e = new doctorEntity();
+    e.id = id;
+    e.name = m.name;
+    e.age = m.age;
+    e.x = m.x;
+    e.y = m.y;
+    e.speciality_key =  m.speciality;
+    return e
 }
 
 function mapNearbyDoctors(row) {
@@ -146,5 +204,6 @@ module.exports = {
     getDoctorsNearby,
     requestLogicHistory,
     saveDoctor,
-    patchDoctor
+    putDoctor,
+    deleteDoctor
 };

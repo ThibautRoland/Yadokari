@@ -70,7 +70,7 @@ function saveDoctor(doctor, callback) {
     });
 }
 
-function patchDoctor(updatedFields, id, callback){
+/*function patchDoctor(updatedFields, id, callback){
 
     const fieldNames = Object.keys(updatedFields);
     const fieldValues = fieldNames.map(fieldName => updatedFields[fieldName]);
@@ -83,6 +83,37 @@ function patchDoctor(updatedFields, id, callback){
     pool.query(query, values, (err, results) => {
         return callback(err, results);
     });
+}*/
+
+function putDoctor(doctorEntity, id, callback) {
+
+    //todo dupplicated code
+
+    const bodyKeys = Object.keys(doctorEntity);
+    const bodyValues = Object.values(doctorEntity);
+    const setClause = bodyKeys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+
+    const query = `UPDATE doctors SET ${setClause} WHERE id = $${bodyKeys.length + 1} RETURNING *;`;
+    console.log("put query =>", query)
+    const values = [...bodyValues, id];
+
+    pool.query(query, values, (err, results) => {
+        console.log('results from putDoctorRepo =>', results)
+        return callback(err, results)
+    })
+}
+
+function deleteDoctor(id, callback) {
+
+    const query = "DELETE FROM doctors WHERE id = ($1) RETURNING *;"
+
+    pool.query(query,[id], (error, results) => {
+        if (error) {
+            return callback(error, [])
+        }
+
+        return callback(null, results.rows)
+    })
 }
 
 function initPool(){
@@ -107,6 +138,7 @@ function initPool(){
     findOneDoctor,
     findDoctorsNearby,
     saveDoctor,
-    patchDoctor
+    putDoctor,
+    deleteDoctor
 };
 

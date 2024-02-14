@@ -74,8 +74,8 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
 app.post("/", async (req, res) => {
     const doctor = req.body;
 
-    if (doctor.name == null || doctor.age == null || doctor.x == null || doctor.y == null ||doctor.specialityKey == null) {
-        return res.status(422).json("name should have a value")
+    if (doctor.name == null || doctor.age == null || doctor.x == null || doctor.y == null || doctor.specialityKey == null) {
+        return res.status(422).json("There shouldn't be a blank value")
     }
 
     doctorLogic.saveDoctor(doctor, (error, id) => {
@@ -89,29 +89,27 @@ app.post("/", async (req, res) => {
 })
 
 app.put("/:id", async (req, res) => {
-    fake = {
-        "age" : 45,
-        "name" : "thibaut"
+
+    const id = req.params.id;
+    const reqBody = req.body;
+    
+    if (reqBody.name == null || reqBody.age == null || reqBody.x == null || reqBody.y == null || reqBody.speciality == null) {
+        return res.status(422).json("There shouldn't be a blank value")
     }
 
-    // put age = 25
-
-    resultat = {
-        "age" : 25,
-        "name" : null
-    }
-
-    const doctor = req.body;
-    return res.status(200).json("this is a put");
+    doctorLogic.putDoctor(reqBody, id, (error, doctorPut) => {
+        return res.status(201).json(doctorPut)
+    })
 })
 
-app.patch("/:id", async (req, res) => {
+//patch is currently useless for our use-case
+/*app.patch("/:id", async (req, res) => {
 
     const id = req.params.id;
 
     const toPatch = req.body;
 
-    if (toPatch.name == null && toPatch.age == null && toPatch.x == null && toPatch.y == null && toPatch.specialityKey == null) {
+    if (toPatch.name == null && toPatch.age == null && toPatch.x == null && toPatch.y == null && toPatch.speciality == null) {
         return res.status(422).json("should patch at least one field")
     }
 
@@ -122,10 +120,26 @@ app.patch("/:id", async (req, res) => {
 
         return res.status(200).json(doctorPatched);
     })
-})
+})*/
 
 app.delete("/:id", async (req, res) => {
-    return res.status(200).json("this is a delete");
+
+    const id = req.params.id;
+
+    doctorLogic.deleteDoctor(id, (error, doctorDeleted) => {
+        
+        if (error) {
+            return res.status(500).json({ error: 'error => '+error });
+        }
+
+        return res.status(204).json(doctorDeleted)
+    })
+
+    // 202 (Accepted) if the DELETE action has not yet been performed, 
+    // or 204 (No content) if the DELETE action has been completed 
+
+
+
 })
 
 module.exports = app;
