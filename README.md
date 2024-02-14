@@ -16,8 +16,14 @@ X add frontend nearby
 
 X onKeyUp todo
 
-- create doctor
+X create doctor
 
 - video mozilla
 
-- check injection insert
+X check injection insert
+
+- header
+
+- middleware
+
+- authentication

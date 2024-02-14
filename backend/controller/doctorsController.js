@@ -92,7 +92,7 @@ app.put("/:id", async (req, res) => {
 
     const id = req.params.id;
     const reqBody = req.body;
-    
+
     if (reqBody.name == null || reqBody.age == null || reqBody.x == null || reqBody.y == null || reqBody.speciality == null) {
         return res.status(422).json("There shouldn't be a blank value")
     }
@@ -126,20 +126,14 @@ app.delete("/:id", async (req, res) => {
 
     const id = req.params.id;
 
-    doctorLogic.deleteDoctor(id, (error, doctorDeleted) => {
-        
+    doctorLogic.deleteDoctor(id, (error) => {
+
         if (error) {
             return res.status(500).json({ error: 'error => '+error });
         }
 
-        return res.status(204).json(doctorDeleted)
+        return res.status(204).json()
     })
-
-    // 202 (Accepted) if the DELETE action has not yet been performed, 
-    // or 204 (No content) if the DELETE action has been completed 
-
-
-
 })
 
 module.exports = app;

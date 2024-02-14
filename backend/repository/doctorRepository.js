@@ -105,14 +105,14 @@ function putDoctor(doctorEntity, id, callback) {
 
 function deleteDoctor(id, callback) {
 
-    const query = "DELETE FROM doctors WHERE id = ($1) RETURNING *;"
+    const query = "DELETE FROM doctors WHERE id = ($1);"
 
     pool.query(query,[id], (error, results) => {
         if (error) {
             return callback(error, [])
         }
 
-        return callback(null, results.rows)
+        return callback(null, results)
     })
 }
 

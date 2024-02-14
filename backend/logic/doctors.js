@@ -140,7 +140,6 @@ function putDoctor(reqBody, id, callback) {
 
         const doctorModel = mapDoctorEntityToModel(putResult.rows[0])
 
-        // tout va bien
         return callback(null, doctorModel);
     })
 }
@@ -151,18 +150,15 @@ function deleteDoctor(id, callback) {
 
         if (error) {
             console.log("[ERROR] : error delete request doctor with id " + id + " with error => " + error);
-            return callback(error, null);
+            return callback(error);
         }
 
-         if (deleteResult.rows.length <=1  ){
-            const errorLength = "no doctor deleted "+ deleteResult.rows.length
-            return callback(errorLength, null);
+         if (deleteResult.rowCount != 1  ){
+            const errorLength = "no doctor deleted "+ deleteResult.rowCount
+            return callback(errorLength);
          }
 
-        const doctorModel = mapDoctorEntityToModel(deleteResult.rows[0])
-
-        // tout va bien
-        return callback(error, deleteResult);
+        return callback(null);
     })
 }
 
