@@ -58,7 +58,7 @@ function findDoctorsNearby(requestNearbyDoctor , callback) {
 
 function saveDoctor(doctor, callback) {
     const query = 'INSERT INTO doctors (name, age, x, y, speciality_key) VALUES ($1, $2, $3, $4, $5) RETURNING id';
-    const values = [doctor.name, doctor.age, doctor.x, doctor.y, doctor.specialityKey];
+    const values = [doctor.name, doctor.age, doctor.x, doctor.y, doctor.speciality];
 
     pool.query(query, values, (err, results) => {
         if (err) {

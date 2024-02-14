@@ -74,7 +74,13 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
 app.post("/", async (req, res) => {
     const doctor = req.body;
 
-    if (doctor.name == null || doctor.age == null || doctor.x == null || doctor.y == null || doctor.specialityKey == null) {
+    const isAdmin = req.header("yadokari_admin")
+
+    if (!isAdmin){
+        return res.status(403).json("You are not allowed")
+    }
+
+    if (doctor.name == null || doctor.age == null || doctor.x == null || doctor.y == null || doctor.speciality == null) {
         return res.status(422).json("There shouldn't be a blank value")
     }
 
