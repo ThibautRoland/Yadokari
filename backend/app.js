@@ -14,6 +14,8 @@ app.use(cors());
 
 app.use('/doctors', doctorsController);
 
+app.use('/admin', doctorsController);
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

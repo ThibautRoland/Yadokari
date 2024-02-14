@@ -2,6 +2,7 @@ const express = require('express');
 const doctorLogic = require('../logic/doctors');
 const app = express();
 const requestNearbyDoctor = require( '../model/request/RequestNearbyDoctor')
+const isAdmin = require('../middleware/isAdmin');
 
 // doctors/
 app.get('/', async (req, res) => {
@@ -71,14 +72,8 @@ app.get("/:distance/:long/:lat/:speciality", async (req, res) => {
     })
 })
 
-app.post("/", async (req, res) => {
+app.post("/", isAdmin, async (req, res) => {
     const doctor = req.body;
-
-    const isAdmin = req.header("yadokari_admin")
-
-    if (!isAdmin){
-        return res.status(403).json("You are not allowed")
-    }
 
     if (doctor.name == null || doctor.age == null || doctor.x == null || doctor.y == null || doctor.speciality == null) {
         return res.status(422).json("There shouldn't be a blank value")
@@ -94,7 +89,7 @@ app.post("/", async (req, res) => {
 
 })
 
-app.put("/:id", async (req, res) => {
+app.put("/:id", isAdmin, async (req, res) => {
 
     const id = req.params.id;
     const reqBody = req.body;
@@ -128,7 +123,7 @@ app.put("/:id", async (req, res) => {
     })
 })*/
 
-app.delete("/:id", async (req, res) => {
+app.delete("/:id", isAdmin, async (req, res) => {
 
     const id = req.params.id;
 
