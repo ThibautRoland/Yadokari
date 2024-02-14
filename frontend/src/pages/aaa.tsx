@@ -4,10 +4,11 @@ import { Doctor} from '../interface/doctor';
 import { DoctorList } from '../components/doctorList';
 import { SearchDoctor } from '../components/searchDoctor';
 import { NearbyDoctor } from '../components/nearbyDoctor';
+import Link from 'next/link';
 
 type IndexProps = {
   doctors: Array<Doctor>
-}
+} 
 
 export default function aaa({ doctors}:IndexProps) {
 
@@ -70,10 +71,8 @@ export default function aaa({ doctors}:IndexProps) {
         </a>
     </li>
 </ul>
-<div className=''>
 
-</div>
-
+<Link href="./create"> Create </Link>
 
       <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
         <DoctorList doctors={doctors}/>
@@ -95,7 +94,7 @@ export default function aaa({ doctors}:IndexProps) {
 
 export async function getServerSideProps() {
 
-  const res = await fetch('http://localhost:3001/doctors')
+  const res = await fetch('http://localhost:3000/doctors')
   const doctors = await res.json()
 
   console.log("from getServersideprops doctors:" +doctors);
