@@ -1,7 +1,7 @@
 
 export type Doctor = {
     name: string,
-    speciality: string,
+    speciality: any,
     x : number,
     y : number
   }

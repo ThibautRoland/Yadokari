@@ -22,6 +22,7 @@ export function SearchDoctor () {
     }
 
     const handleClick: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
+
       const inputElement = event.currentTarget.previousElementSibling as HTMLInputElement;
 
       if (inputElement) {

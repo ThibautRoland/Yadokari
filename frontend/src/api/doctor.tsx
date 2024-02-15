@@ -14,7 +14,7 @@ const API_HOST = process.env.API_HOST
 const API_PORT = process.env.API_PORT
 
 export async function  getAllDoctorFromApi() : Promise<Array<Doctor>> {
-    
+
     const url = `http://${API_HOST}:${API_PORT}/doctors`
     const res = await fetch(url)
     const doctors = await res.json() as Array<Doctor>
@@ -23,7 +23,8 @@ export async function  getAllDoctorFromApi() : Promise<Array<Doctor>> {
 }
 
 export async function  searchDoctorFromApi(name : string) : Promise<ResSearch> {
-    
+
+
     const resDoctor = await fetch(`http://${API_HOST}:${API_PORT}/doctors/${name}`)
 
     const resStatus = resDoctor.status
@@ -45,4 +46,16 @@ export async function searchNearbyDoctorsFromApi(long: number, lat: number, dist
 
     const nearbyDoctors = await resNearbyDoctors.json()
     return { doctors: nearbyDoctors, status: resStatus }
+}
+
+export async function postDotor(d : Doctor) : Promise<boolean> {
+
+    const url = `http://${API_HOST}:${API_PORT}/doctors`
+    const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(d),
+        headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
+      });
+
+    return true
 }

@@ -7,6 +7,16 @@ import { NearbyDoctor } from '../components/nearbyDoctor';
 import Link from 'next/link';
 import { getAllDoctorFromApi } from '../api/doctor';
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// import the icons you need
+import {
+  faSearch,
+  faAmbulance,
+  faTrash,
+  faFaceAngry
+} from "@fortawesome/free-solid-svg-icons";
+
 type IndexProps = {
   doctors: Array<Doctor>
 } 
@@ -53,6 +63,18 @@ export default function index({ doctors}:IndexProps) {
   return (
     <Layout>
     <main className="flex min-h-screen flex-col p-8">
+    <FontAwesomeIcon
+    icon={faAmbulance}
+    style={{ fontSize: 12, color: "orange" }}
+/>
+      <FontAwesomeIcon
+        icon={faSearch}
+        style={{ fontSize: 12, color: "blue" }}
+      />
+
+<FontAwesomeIcon icon={faTrash} />
+
+
     <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
 
 
@@ -96,10 +118,8 @@ export default function index({ doctors}:IndexProps) {
 export async function getServerSideProps() {
   /*const url = `http://${process.env.API_HOST}:${process.env.API_PORT}/doctors`
   const res = await fetch(url)*/
+  
   const doctors = await getAllDoctorFromApi()
-
-
-  console.log("from getServersideprops doctors:" +doctors);
 
   return {
     props: {
