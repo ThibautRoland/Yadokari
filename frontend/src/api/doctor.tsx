@@ -1,4 +1,4 @@
-import { Doctor } from "../interface/doctor"
+import { Doctor, DoctorModel } from "../interface/doctor"
 
 type ResSearch = {
     doctor: Doctor | null,
@@ -48,7 +48,7 @@ export async function searchNearbyDoctorsFromApi(long: number, lat: number, dist
     return { doctors: nearbyDoctors, status: resStatus }
 }
 
-export async function postDotor(d : Doctor) : Promise<boolean> {
+export async function postDoctor(d : DoctorModel) : Promise<boolean> {
 
     const url = `http://${API_HOST}:${API_PORT}/doctors`
     const response = await fetch(url, {
