@@ -56,6 +56,66 @@ function findDoctorsNearby(requestNearbyDoctor , callback) {
 
 }
 
+function saveDoctor(doctor, callback) {
+    const query = 'INSERT INTO doctors (name, age, x, y, speciality_key) VALUES ($1, $2, $3, $4, $5) RETURNING id';
+    const values = [doctor.name, doctor.age, doctor.x, doctor.y, doctor.speciality];
+
+    pool.query(query, values, (err, results) => {
+        if (err) {
+            return callback(err, null);
+        }
+
+        return callback(null, results.rows);
+
+    });
+}
+
+/*function patchDoctor(updatedFields, id, callback){
+
+    const fieldNames = Object.keys(updatedFields);
+    const fieldValues = fieldNames.map(fieldName => updatedFields[fieldName]);
+
+    const setClause = fieldNames.map((fieldName, index) => `${fieldName} = $${index + 1}`).join(', ');
+
+    const query = `UPDATE doctors SET ${setClause} WHERE id = $${fieldValues.length + 1} RETURNING *`;
+    const values = [...fieldValues, id];
+
+    pool.query(query, values, (err, results) => {
+        return callback(err, results);
+    });
+}*/
+
+function putDoctor(doctorEntity, id, callback) {
+
+    //todo dupplicated code
+
+    const bodyKeys = Object.keys(doctorEntity);
+    const bodyValues = Object.values(doctorEntity);
+    const setClause = bodyKeys.map((key, index) => `${key} = $${index + 1}`).join(', ');
+
+    const query = `UPDATE doctors SET ${setClause} WHERE id = $${bodyKeys.length + 1} RETURNING *;`;
+    console.log("put query =>", query)
+    const values = [...bodyValues, id];
+
+    pool.query(query, values, (err, results) => {
+        console.log('results from putDoctorRepo =>', results)
+        return callback(err, results)
+    })
+}
+
+function deleteDoctor(id, callback) {
+
+    const query = "DELETE FROM doctors WHERE id = ($1);"
+
+    pool.query(query,[id], (error, results) => {
+        if (error) {
+            return callback(error, [])
+        }
+
+        return callback(null, results)
+    })
+}
+
 function initPool(){
     const user = process.env.POSTGRES_USER || "thibaut"
     const host = process.env.POSTGRES_HOST || "localhost"
@@ -76,6 +136,9 @@ function initPool(){
   module.exports = {
     findAllDoctors,
     findOneDoctor,
-    findDoctorsNearby
+    findDoctorsNearby,
+    saveDoctor,
+    putDoctor,
+    deleteDoctor
 };
 
