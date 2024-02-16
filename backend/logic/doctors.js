@@ -79,7 +79,7 @@ function saveDoctor(doctor, callback){
     db.saveDoctor(doctor, (error, insertResult)=>{
 
         if (error) {
-            console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + err);
+            console.log("[ERROR] : error saving in doctor with " + doctor + " with error => " + error);
             return callback(error, null);
         }
 

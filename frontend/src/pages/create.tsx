@@ -4,10 +4,10 @@ import { postDoctor } from '../api/doctor';
 export default function newDoctor () {
     const [doctor, setDoctor] = useState({
         "name" : "",
-        "age": null,
-        "speciality": null,
-        "x": null,
-        "y": null
+        "age": 0,
+        "speciality": 0,
+        "x": 0,
+        "y": 0
     })
 
     const handleDoctorData = async (event: any, key: string) => {
@@ -18,16 +18,16 @@ export default function newDoctor () {
                 doctorData.name = value;
                 break;
             case "age":
-                doctorData.age = value;
+                doctorData.age = parseInt(value, 10);
                 break;
             case "speciality":
-                doctorData.speciality = value;
+                doctorData.speciality = parseInt(value, 10);
                 break;
             case "x":
-                doctorData.x = value;
+                doctorData.x = parseInt(value, 10);
                 break;
             case "y":
-                doctorData.y = value;
+                doctorData.y = parseInt(value, 10);
                 break;
             default: 
                 return
