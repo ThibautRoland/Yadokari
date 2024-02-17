@@ -55,24 +55,27 @@ export function NearbyDoctor () {
     // }
     
     return     <div>
-        <h1 className="text-3xl"> Find a doctor near you that suits you! </h1>
-            
+      <h1 className="text-3xl text-center py-4"> Find a doctor near you that suits you! </h1>
+        <div className="flex flex-row">
+          <div className="basis-1/3"></div>
+
+          <div className="basis-1/3">
             <p>What specialty are you looking for?</p>
-            <input type="text" ref={specialtyRef}/>
+            <input className="p-2 bg-slate-200 rounded w-full mb-1" placeholder='specialty key' type="text" ref={specialtyRef}/>
             <p>Distance in km from you</p>
-            <input type="text" ref={distanceRef} />
+            <input className="p-2 bg-slate-200 rounded w-full mb-1" placeholder='kilometers' type="text" ref={distanceRef} />
             <p>your coordinates</p>
-            <div className="flex flex-row">
-              <div>
-                <p>longitude</p>
-                <input type="text" ref={longRef}/>
-              </div>
-              <div>
-                <p>latitude</p>
-                <input type="text" ref={latRef}/>
-              </div>
+            <div className="flex flex-row mb-1">
+              <input className="p-2 bg-slate-200 rounded w-1/2 mb-1 me-1" placeholder='longitude' type="text" ref={longRef}/>
+              <input className="p-2 bg-slate-200 rounded w-1/2 mb-1 ms-1" placeholder='latitude' type="text" ref={latRef}/>
             </div>
-            <button className="mb-3" onClick={handleSearch}>Submit search</button>
+            <div className="flex justify-center">
+              <button className="mb-3 border rounded-lg w-1/2 p-2 hover:bg-slate-100" onClick={handleSearch}>Submit search</button>
+            </div>
+          </div>
+
+          <div className="basis-1/3"></div>
+        </div> 
 
             <h2 className='m-3'>{searchState.message}</h2>
 

@@ -99,7 +99,7 @@ export default function index({ doctors}:IndexProps) {
   </div>
   
   <div className="basis-1/6 flex justify-center items-center">
-    <Link href="./create"> Add a doctor </Link>
+    <Link href="./create"><button className="border p-3 rounded-lg hover:bg-slate-100">Add a doctor</button></Link>
   </div>
 
 </div>

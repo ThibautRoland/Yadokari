@@ -59,14 +59,14 @@ export function SearchDoctor () {
       }
 
     return     <div>
-      <h1 className="py-4 text-center"> search one doctor </h1>
+      <h1 className="py-4 text-center text-3xl"> search one doctor </h1>
       <div className="flex flex-row">
         <div className="basis-1/4"></div>
 
         <div className="basis-1/2">
           <div className="flex">
             <input placeholder="Name of the doctor" className="bg-slate-200 w-3/4 p-2 me-3 rounded" type="text" onKeyUp={handleEnterPress}/>
-            <button className="border w-1/4 rounded-lg" onClick={ handleClick}> Search Doctor</button>
+            <button className="border w-1/4 rounded-lg hover:bg-slate-100" onClick={ handleClick}> Search Doctor</button>
           </div>
 
           <div className="text-center py-4">{stateSearch.message}</div>
