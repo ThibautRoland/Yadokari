@@ -1,10 +1,16 @@
 import { Doctor } from "../interface/doctor"
+import { deleteDoctorFromApi } from "../api/doctor"
 
 type DoctorCardProps = {
   doctor: Doctor
 }
 
 export const DoctorCard = ({ doctor}: DoctorCardProps) => {
+
+  const handleDelete = async (id: number) => {
+    const res = deleteDoctorFromApi(id)
+    console.log(res)
+  }
 
   function getSpecialityNameBySpecialityKey(key : any) : string {
 
@@ -33,5 +39,6 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     <p className="text-gray-700 mb-4">{getSpecialityNameBySpecialityKey(doctor.speciality)}</p>
     <div className="text-blue-700"> {doctor.x} - {doctor.y}   </div>
   </div>
+  <button onClick={(event) => handleDelete(doctor.id)}>delete</button>
 </div>
 }

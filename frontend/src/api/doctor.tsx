@@ -59,3 +59,14 @@ export async function postDoctor(d : DoctorModel) : Promise<boolean> {
 
     return response.status === 201
 }
+
+export async function deleteDoctorFromApi(id : number) : Promise<boolean> {
+
+    const url = `http://${API_HOST}:${API_PORT}/doctors/${id}`
+    const response = await fetch(url, {
+        method: 'delete',
+        headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
+      });
+
+    return response.status === 204
+}
