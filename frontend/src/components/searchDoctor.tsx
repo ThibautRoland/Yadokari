@@ -10,7 +10,7 @@ export function SearchDoctor () {
         searchStarted : false,
         doctorInput : '',
         doctorFound : false,
-        message : "bjr",
+        message : "",
         doctor :  {} as Doctor | null,
       });
 
@@ -33,16 +33,19 @@ export function SearchDoctor () {
 
     const handleChangeInput = async (input:string) => {
 
-        const res = await searchDoctorFromApi(input)
+        const res = await searchDoctorFromApi(input);
+        const numberOfDoctorsFromRes = [res.doctor].flat().length;
 
         const updatedSearchState = {
           ...stateSearch
         };
 
         if (res.status == 404) {
-          updatedSearchState.message = "no doctor found"
+          updatedSearchState.message = "no doctor found with this name"
           updatedSearchState.doctorFound = false
-
+        } else if (numberOfDoctorsFromRes > 1){
+          updatedSearchState.message = "Blank input"
+          updatedSearchState.doctorFound = false
         } else if (res.status == 200){
           updatedSearchState.message = "doctor found"
           updatedSearchState.doctorFound = true
@@ -51,20 +54,31 @@ export function SearchDoctor () {
           updatedSearchState.message = "sorry, come back later"
           updatedSearchState.doctorFound = false
         }
-
+        console.log(numberOfDoctorsFromRes)
         setStateSearch(updatedSearchState);
       }
 
     return     <div>
-        <h1> search one doctor </h1>
-            <input type="text" onKeyDown={handleEnterPress}/>
-            <button onClick={ handleClick}> Search Doctor</button>
-            <div>{stateSearch.message}</div>
+      <h1 className="py-4 text-center"> search one doctor </h1>
+      <div className="flex flex-row">
+        <div className="basis-1/4"></div>
 
-            <div className={`${stateSearch.doctorFound ? '' : 'hidden'}`}>
+        <div className="basis-1/2">
+          <div className="flex">
+            <input placeholder="Name of the doctor" className="bg-slate-200 w-3/4 p-2 me-3 rounded" type="text" onKeyUp={handleEnterPress}/>
+            <button className="border w-1/4 rounded-lg" onClick={ handleClick}> Search Doctor</button>
+          </div>
 
+          <div className="text-center py-4">{stateSearch.message}</div>
+
+          <div className={`${stateSearch.doctorFound ? '' : 'hidden'}`}>
             <DoctorCard doctor={stateSearch.doctor!}/>
-            </div>
+          </div>
         </div>
+
+        <div className="basis-1/4"></div>
+
+      </div>
+    </div>
 
     }

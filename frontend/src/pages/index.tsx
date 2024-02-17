@@ -74,28 +74,36 @@ export default function index({ doctors}:IndexProps) {
 
 <FontAwesomeIcon icon={faTrash} />
 
+<div className="flex flex-row">
 
+  <div className="basis-1/6"></div>
+
+  <div className="basis-4/6">
     <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-
-
-    <li className="me-2" onClick={(event) => handleClick(event, 0)}>
+      <li className="me-2" onClick={(event) => handleClick(event, 0)}>
         <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
           Doctor List
         </a>
-    </li>
-    <li className="me-2" onClick={(event) => handleClick(event,1)}>
+      </li>
+      <li className="me-2" onClick={(event) => handleClick(event,1)}>
         <a href="#" className={`${stateNumber == 1 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
           Doctor Search
         </a>
-    </li>
-    <li className="me-2" onClick={(event) => handleClick(event, 2)}>
+      </li>
+      <li className="me-2" onClick={(event) => handleClick(event, 2)}>
         <a href="#" className={`${stateNumber == 2 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
           Doctors Nearby
         </a>
-    </li>
-</ul>
+      </li>
+    </ul>
+  </div>
+  
+  <div className="basis-1/6 flex justify-center items-center">
+    <Link href="./create"> Add a doctor </Link>
+  </div>
 
-<Link href="./create"> Create </Link>
+</div>
+
 
       <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
         <DoctorList doctors={doctors}/>
