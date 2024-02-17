@@ -8,8 +8,21 @@ type DoctorCardProps = {
 export const DoctorCard = ({ doctor}: DoctorCardProps) => {
 
   const handleDelete = async (id: number) => {
+    const confirmation = confirm("are you sure you want to delete?");
+
+    if (!confirmation) {
+      return
+    }
+
     const res = deleteDoctorFromApi(id)
     console.log(res)
+    res.then(
+      function(value) {value ? location.reload() : alert("an error occured")}
+    )
+  }
+
+  const handleEdit = async (id: number) => {
+    
   }
 
   function getSpecialityNameBySpecialityKey(key : any) : string {
@@ -40,5 +53,6 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     <div className="text-blue-700"> {doctor.x} - {doctor.y}   </div>
   </div>
   <button onClick={(event) => handleDelete(doctor.id)}>delete</button>
+  <button onClick={(event) => handleEdit(doctor.id)}>edit</button>
 </div>
 }
