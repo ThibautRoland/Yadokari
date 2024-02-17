@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { postDoctor } from '../api/doctor';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function newDoctor () {
     const [doctor, setDoctor] = useState({
@@ -10,7 +12,9 @@ export default function newDoctor () {
         "y": 0
     })
 
-    const handleDoctorData = async (event: any, key: string) => {
+    const router = useRouter();
+
+    const handleDoctorData = async (event: React.ChangeEvent<HTMLInputElement>, key: string) => {
         const doctorData = {...doctor};
         const value = event.currentTarget.value
         switch (key) {
@@ -36,9 +40,13 @@ export default function newDoctor () {
 
     }
 
-    const handleClick = async (event: React.ChangeEventHandler<HTMLInputElement>) => {
+    const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         console.log(doctor);
         const res = postDoctor(doctor);
+        res.then(
+            function(value) {value ? router.push('/') : alert('the inputs were not correctly fulfilled')},
+            function(error) {console.log(error);}
+        )
     }
   
     return <div>

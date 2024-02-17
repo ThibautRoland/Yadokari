@@ -57,5 +57,5 @@ export async function postDoctor(d : DoctorModel) : Promise<boolean> {
         headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
       });
 
-    return true
+    return response.status === 201
 }
