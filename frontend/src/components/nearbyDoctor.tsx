@@ -61,13 +61,13 @@ export function NearbyDoctor () {
 
           <div className="basis-1/3">
             <p>What specialty are you looking for?</p>
-            <input className="p-2 bg-slate-200 rounded w-full mb-1" placeholder='specialty key' type="text" ref={specialtyRef}/>
+            <input className="p-2 slate-input w-full mb-1" placeholder='specialty key' type="text" ref={specialtyRef}/>
             <p>Distance in km from you</p>
-            <input className="p-2 bg-slate-200 rounded w-full mb-1" placeholder='kilometers' type="text" ref={distanceRef} />
+            <input className="p-2 slate-input w-full mb-1" placeholder='kilometers' type="text" ref={distanceRef} />
             <p>your coordinates</p>
             <div className="flex flex-row mb-1">
-              <input className="p-2 bg-slate-200 rounded w-1/2 mb-1 me-1" placeholder='longitude' type="text" ref={longRef}/>
-              <input className="p-2 bg-slate-200 rounded w-1/2 mb-1 ms-1" placeholder='latitude' type="text" ref={latRef}/>
+              <input className="p-2 slate-input w-1/2 mb-1 me-1" placeholder='longitude' type="text" ref={longRef}/>
+              <input className="p-2 slate-input w-1/2 mb-1 ms-1" placeholder='latitude' type="text" ref={latRef}/>
             </div>
             <div className="flex justify-center">
               <button className="mb-3 border rounded-lg w-1/2 p-2 hover:bg-slate-100" onClick={handleSearch}>Submit search</button>

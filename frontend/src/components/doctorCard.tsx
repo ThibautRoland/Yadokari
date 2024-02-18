@@ -1,5 +1,6 @@
 import { Doctor } from "../interface/doctor"
 import { deleteDoctorFromApi } from "../api/doctor"
+import Link from "next/link"
 
 type DoctorCardProps = {
   doctor: Doctor
@@ -19,10 +20,6 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     res.then(
       function(value) {value ? location.reload() : alert("an error occured")}
     )
-  }
-
-  const handleEdit = async (id: number) => {
-    
   }
 
   function getSpecialityNameBySpecialityKey(key : any) : string {
@@ -53,6 +50,7 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     <div className="text-blue-700"> {doctor.x} - {doctor.y}   </div>
   </div>
   <button onClick={(event) => handleDelete(doctor.id)}>delete</button>
-  <button onClick={(event) => handleEdit(doctor.id)}>edit</button>
+  {/* <button onClick={(event) => handleEdit(doctor.id)}>edit</button> */}
+  <Link href={`/edit/${doctor.id}`}>edit</Link>
 </div>
 }

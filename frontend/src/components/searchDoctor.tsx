@@ -65,7 +65,7 @@ export function SearchDoctor () {
 
         <div className="basis-1/2">
           <div className="flex">
-            <input placeholder="Name of the doctor" className="bg-slate-200 w-3/4 p-2 me-3 rounded focus:outline-none" type="text" onKeyUp={handleEnterPress}/>
+            <input placeholder="Name of the doctor" className="w-3/4 p-2 me-3 slate-input" type="text" onKeyUp={handleEnterPress}/>
             <button className="border w-1/4 rounded-lg hover:bg-slate-100" onClick={ handleClick}> Search Doctor</button>
           </div>
 
