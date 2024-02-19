@@ -46,10 +46,10 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     }
     return "undefined"
   }
-  return <div className="flex flex-col max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md">
+  return <div className="flex flex-col h-80 w-64 mx-auto bg-white rounded-md overflow-hidden shadow-md">
     <div className="flex flex-row bg-slate-100">
       <img
-        className="basis-1/3 w-full h-10"
+        className="basis-1/3 w-full h-16"
         src="https://www.svgrepo.com/show/48298/doctor.svg"
         alt="Card Image"
       />
