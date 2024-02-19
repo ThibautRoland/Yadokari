@@ -1,6 +1,14 @@
 import { Doctor } from "../interface/doctor"
 import { deleteDoctorFromApi } from "../api/doctor"
 import Link from "next/link"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faAmbulance,
+  faTrash,
+  faPencil,
+  faFaceAngry
+} from "@fortawesome/free-solid-svg-icons";
 
 type DoctorCardProps = {
   doctor: Doctor
@@ -38,19 +46,25 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
     }
     return "undefined"
   }
-  return <div className="flex flex-row max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md">
-  <img
-    className="object-cover w-full h-10"
-    src="https://www.svgrepo.com/show/48298/doctor.svg"
-    alt="Card Image"
-  />
+  return <div className="flex flex-col max-w-md mx-auto bg-white rounded-md overflow-hidden shadow-md">
+    <div className="flex flex-row bg-slate-100">
+      <img
+        className="basis-1/3 w-full h-10"
+        src="https://www.svgrepo.com/show/48298/doctor.svg"
+        alt="Card Image"
+      />
+      <div className="basis-2/3 flex content-center justify-end">
+        <h2 className="text-xl font-bold mb-2">{doctor.name}</h2>
+      </div>
+    </div>
   <div className="p-6">
-    <h2 className="text-xl font-bold mb-2">{doctor.name}</h2>
     <p className="text-gray-700 mb-4">{getSpecialityNameBySpecialityKey(doctor.speciality)}</p>
     <div className="text-blue-700"> {doctor.x} - {doctor.y}   </div>
   </div>
-  <button onClick={(event) => handleDelete(doctor.id)}>delete</button>
+  <button onClick={(event) => handleDelete(doctor.id)}>
+    <FontAwesomeIcon icon={faTrash}/>
+  </button>
   {/* <button onClick={(event) => handleEdit(doctor.id)}>edit</button> */}
-  <Link href={`/edit/${doctor.id}`}>edit</Link>
+  <Link href={`/edit/${doctor.id}`}><FontAwesomeIcon icon={faPencil}/></Link>
 </div>
 }
