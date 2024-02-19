@@ -69,7 +69,7 @@ export function NearbyDoctor () {
               <input className="p-2 slate-input w-1/2 mb-1 me-1" placeholder='longitude' type="text" ref={longRef}/>
               <input className="p-2 slate-input w-1/2 mb-1 ms-1" placeholder='latitude' type="text" ref={latRef}/>
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-2">
               <button className="mb-3 border rounded-lg w-1/2 p-2 hover:bg-slate-100" onClick={handleSearch}>Submit search</button>
             </div>
           </div>
