@@ -61,7 +61,7 @@ export function NearbyDoctor () {
 
           <div className="basis-1/3">
             <p>What specialty are you looking for?</p>
-            <input className="p-2 slate-input w-full mb-1" placeholder='specialty key' type="text" ref={specialtyRef}/>
+            <input className="p-2 slate-input w-full mb-1" placeholder='specialty' type="text" ref={specialtyRef}/>
             <p>Distance in km from you</p>
             <input className="p-2 slate-input w-full mb-1" placeholder='kilometers' type="text" ref={distanceRef} />
             <p>your coordinates</p>

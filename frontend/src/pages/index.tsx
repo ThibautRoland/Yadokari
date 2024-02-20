@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {Layout} from '../components/layout';
 import { Doctor} from '../interface/doctor';
+import { HistoryModel } from '../interface/history';
 import { DoctorList } from '../components/doctorList';
 import { SearchDoctor } from '../components/searchDoctor';
 import { NearbyDoctor } from '../components/nearbyDoctor';
 import Link from 'next/link';
 import { getAllDoctorFromApi } from '../api/doctor';
 import { History } from '../components/history';
+import { getHistoryFromApi } from '../api/history';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -25,9 +27,25 @@ type IndexProps = {
 export default function index({ doctors}:IndexProps) {
 
   const [stateNumber, setStateNumber] = useState(0);
+  const [history, setHistory] = useState([{
+    id: 0,
+    doctorName: '',
+    dateSearched: ''
+  }]);
 
   const handleClick = async (event:React.MouseEvent<HTMLLIElement>, idTab: number) => {
     setStateNumber(idTab);
+    if (idTab === 3) {
+      fetchHistory();
+    }
+  }
+
+  const fetchHistory = async () => {
+    const res = await getHistoryFromApi();
+    if (res.status === 200) {
+      // const dataHistory = {... history}
+      setHistory(res.history)
+    }
   }
 
   return (
@@ -93,7 +111,7 @@ export default function index({ doctors}:IndexProps) {
       </div>
 
       <div className={`${stateNumber == 3 ? '' : 'hidden'}`}>
-        <History/>
+        <History history={history}/>
       </div>
 
 

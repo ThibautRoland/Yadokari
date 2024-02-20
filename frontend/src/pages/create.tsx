@@ -73,7 +73,7 @@ export default function newDoctor () {
                     <button className='mb-3 border rounded-lg w-1/2 p-2 hover:bg-slate-100' onClick={handleClick}>Submit</button>
                 </div>
             </div>
-            <div className="basis-1/3">
+            <div className="basis-1/3 flex justify-center">
                 <Link href="/"> 
                     <FontAwesomeIcon icon={faArrowLeft} />
                     <button className="text-lg ms-1">Back</button> 
