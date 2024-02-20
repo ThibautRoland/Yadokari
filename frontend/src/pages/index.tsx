@@ -6,6 +6,7 @@ import { SearchDoctor } from '../components/searchDoctor';
 import { NearbyDoctor } from '../components/nearbyDoctor';
 import Link from 'next/link';
 import { getAllDoctorFromApi } from '../api/doctor';
+import { History } from '../components/history';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -24,41 +25,10 @@ type IndexProps = {
 export default function index({ doctors}:IndexProps) {
 
   const [stateNumber, setStateNumber] = useState(0);
-  /*
-  Previous code used to change className for tabs 
-  
-  const [stateLink, setStateLink] = useState<HTMLAnchorElement | null>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null)*/
-
-  // useEffect(() => {
-  //   setStateLink((prevElement) => {
-  //     if (!prevElement) {
-  //       return linkRef.current;
-  //     }
-  //     return prevElement;
-  //   });
-  // }, [])
-
-  /*useEffect(() => {
-    setStateLink(linkRef.current)
-  }, [])*/
 
   const handleClick = async (event:React.MouseEvent<HTMLLIElement>, idTab: number) => {
-
-    /*
-    Previous code used to change className for tabs 
-    
-    const fakeLink = event.currentTarget.children[0]
-    if (idTab === stateNumber) {
-      return 
-    }
-    stateLink!.classList.add('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
-    stateLink!.classList.remove('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
-    fakeLink.classList.add('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
-    fakeLink.classList.remove('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
-    setStateLink(fakeLink)*/
     setStateNumber(idTab);
-}
+  }
 
   return (
     <Layout>
@@ -95,6 +65,11 @@ export default function index({ doctors}:IndexProps) {
           Doctors Nearby
         </a>
       </li>
+      <li className="me-2" onClick={(event) => handleClick(event, 3)}>
+        <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+          See history
+        </a>
+      </li>
     </ul>
   </div>
   
@@ -116,6 +91,11 @@ export default function index({ doctors}:IndexProps) {
       <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
         <NearbyDoctor/>
       </div>
+
+      <div className={`${stateNumber == 3 ? '' : 'hidden'}`}>
+        <History/>
+      </div>
+
 
     </main>
     </Layout>
