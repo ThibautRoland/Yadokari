@@ -53,18 +53,31 @@ export const DoctorCard = ({ doctor}: DoctorCardProps) => {
         src="https://www.svgrepo.com/show/48298/doctor.svg"
         alt="Card Image"
       />
-      <div className="basis-2/3 flex content-center justify-end">
+      <div className="basis-2/3 flex items-center justify-end pe-1">
         <h2 className="text-xl font-bold mb-2">{doctor.name}</h2>
       </div>
     </div>
-  <div className="p-6">
-    <p className="text-gray-700 mb-4">{getSpecialityNameBySpecialityKey(doctor.speciality)}</p>
-    <div className="text-blue-700"> {doctor.x} - {doctor.y}   </div>
-  </div>
-  <button onClick={(event) => handleDelete(doctor.id)}>
-    <FontAwesomeIcon icon={faTrash}/>
-  </button>
-  {/* <button onClick={(event) => handleEdit(doctor.id)}>edit</button> */}
-  <Link href={`/edit/${doctor.id}`}><FontAwesomeIcon icon={faPencil}/></Link>
+
+    <div className="flex flex-col pt-5 pb-2 pl-12">
+      <p className="text-lg">Specializes in</p>
+      <p className="text-gray-700 mb-4 text-lg font-bold">{getSpecialityNameBySpecialityKey(doctor.speciality)}</p>
+    </div>
+    <p className="text-center"> Coordinates:</p>
+    <div className="flex justify-between px-5 py-3">
+      <p>longitude</p>
+      <p className="font-bold">{doctor.x}</p>
+    </div>
+    <div className="flex justify-between px-5">
+      <p>latitude</p>
+      <p className="font-bold">{doctor.y}</p>
+    </div>
+    <div className="flex flex-row justify-between py-5 px-3">
+      <Link href={`/edit/${doctor.id}`}>
+        <FontAwesomeIcon icon={faPencil} size="lg"/>
+      </Link>
+      <button onClick={(event) => handleDelete(doctor.id)}>
+        <FontAwesomeIcon icon={faTrash} size="lg"/>
+      </button>
+    </div>
 </div>
 }
