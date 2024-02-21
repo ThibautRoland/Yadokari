@@ -10,7 +10,7 @@ type HistoryProps = {
 export const History = ({history}: HistoryProps) => {
   return     <div className="grid grid-cols-4 space-y-2 gap-2">
         {history.map((h: HistoryModel, i: number) => (
-            <div>
+            <div key={i}>
                 <p>{h.doctorName}</p>
                 <p>searched: {h.dateSearched}</p>
             </div>
