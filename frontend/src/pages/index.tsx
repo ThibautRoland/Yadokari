@@ -67,7 +67,7 @@ export default function index({ doctors}:IndexProps) {
   <div className="basis-1/6"></div>
 
   <div className="basis-4/6">
-    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+    <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
       <li className="me-2" onClick={(event) => handleClick(event, 0)}>
         <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
           Doctor List
@@ -83,7 +83,7 @@ export default function index({ doctors}:IndexProps) {
           Doctors Nearby
         </a>
       </li>
-      <li className="me-2" onClick={(event) => handleClick(event, 3)}>
+      <li className="ml-auto" onClick={(event) => handleClick(event, 3)}>
         <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
           See history
         </a>
