@@ -49,76 +49,63 @@ export default function index({ doctors}:IndexProps) {
   }
 
   return (
-    <Layout>
-    <main className="flex min-h-screen flex-col p-8">
-    <FontAwesomeIcon
-    icon={faAmbulance}
-    style={{ fontSize: 12, color: "orange" }}
-/>
-      <FontAwesomeIcon
-        icon={faSearch}
-        style={{ fontSize: 12, color: "blue" }}
-      />
+<Layout>
+<main className="flex min-h-screen flex-col p-8">
+  <h1 className='text-center text-5xl pb-5'>Yadokari</h1>
 
-<FontAwesomeIcon icon={faTrash} />
+  <div className="flex flex-row">
 
-<div className="flex flex-row">
+    <div className="basis-1/6"></div>
 
-  <div className="basis-1/6"></div>
-
-  <div className="basis-4/6">
-    <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-      <li className="me-2" onClick={(event) => handleClick(event, 0)}>
-        <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctor List
-        </a>
-      </li>
-      <li className="me-2" onClick={(event) => handleClick(event,1)}>
-        <a href="#" className={`${stateNumber == 1 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctor Search
-        </a>
-      </li>
-      <li className="me-2" onClick={(event) => handleClick(event, 2)}>
-        <a href="#" className={`${stateNumber == 2 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctors Nearby
-        </a>
-      </li>
-      <li className="ml-auto" onClick={(event) => handleClick(event, 3)}>
-        <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Search history
-        </a>
-      </li>
-    </ul>
-  </div>
-  
-  <div className="basis-1/6 flex justify-center items-center">
-    <Link href="./create"><button className="border p-3 rounded-lg hover:bg-slate-100">Add a doctor</button></Link>
+    <div className="basis-4/6">
+      <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+        <li className="me-2" onClick={(event) => handleClick(event, 0)}>
+          <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctor List
+          </a>
+        </li>
+        <li className="me-2" onClick={(event) => handleClick(event,1)}>
+          <a href="#" className={`${stateNumber == 1 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctor Search
+          </a>
+        </li>
+        <li className="me-2" onClick={(event) => handleClick(event, 2)}>
+          <a href="#" className={`${stateNumber == 2 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctors Nearby
+          </a>
+        </li>
+        <li className="ml-auto" onClick={(event) => handleClick(event, 3)}>
+          <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Search history
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <div className="basis-1/6 flex justify-center items-center">
+      <Link href="./create"><button className="border p-3 rounded-lg hover:bg-slate-100">Add a doctor</button></Link>
+    </div>
   </div>
 
-</div>
 
+  <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
+    <DoctorList doctors={doctors}/>
+  </div>
 
-      <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
-        <DoctorList doctors={doctors}/>
-      </div>
+  <div className={`${stateNumber == 1 ? '' : 'hidden'}`}>
+    <SearchDoctor/>
+  </div>
 
-      <div className={`${stateNumber == 1 ? '' : 'hidden'}`}>
-        <SearchDoctor/>
-      </div>
+  <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
+    <NearbyDoctor/>
+  </div>
 
-      <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
-        <NearbyDoctor/>
-      </div>
-
-      <div className={`${stateNumber == 3 ? '' : 'hidden'}`}>
-        <History history={history}/>
-      </div>
-
-
-    </main>
-    </Layout>
-  );
-
+  <div className={`${stateNumber == 3 ? '' : 'hidden'}`}>
+    <History history={history}/>
+  </div>
+</main>
+</Layout>
+);
 }
 
 export async function getServerSideProps() {
