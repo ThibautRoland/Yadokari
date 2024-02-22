@@ -8,7 +8,7 @@ type HistoryProps = {
 }
 
 export const History = ({history}: HistoryProps) => {
-  return     <div className="grid grid-cols-4 space-y-2 gap-2">
+  return     <div className="grid grid-cols-4 space-y-2 gap-2 mt-5">
         {history.map((h: HistoryModel, i: number) => (
             <div key={i}>
                 <p>{h.doctorName}</p>

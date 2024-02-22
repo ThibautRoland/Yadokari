@@ -85,7 +85,7 @@ export default function index({ doctors}:IndexProps) {
       </li>
       <li className="ml-auto" onClick={(event) => handleClick(event, 3)}>
         <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          See history
+          Search history
         </a>
       </li>
     </ul>

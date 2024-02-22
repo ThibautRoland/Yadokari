@@ -77,6 +77,9 @@ export function NearbyDoctor () {
           <div className="basis-1/3"></div>
         </div> 
 
+        <div className='flex flex-row'>
+          <div className='basis-1/12'></div>
+          <div className='basis-10/12'>
             <h2 className='m-3'>{searchState.message}</h2>
 
             <div className={`grid grid-cols-4 space-y-2 gap-2 ${searchState.doctorFound ? '' : 'hidden'}`}>
@@ -85,6 +88,10 @@ export function NearbyDoctor () {
                 <DoctorCard key={i} doctor={d}/>
               ))}
             </div>
+          </div>
+          <div className='basis-1/12'></div>
+        </div>
+
 
         </div>
 
