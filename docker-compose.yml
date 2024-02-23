@@ -1,16 +1,26 @@
 version: '3'
 services:
 
-  api: 
-    build: 
-      dockerfile: ./backend/Dockerfile 
-    ports: 
-      - 3001:3000 
-    env_file: 
-      - ./backend/dev.env 
-    networks: 
+  api:
+    build:
+      dockerfile: ./backend/Dockerfile
+    ports:
+      - 3001:3000
+    env_file:
+      - ./backend/dev.env
+    networks:
       - yadokari-network
-     
+
+  front:
+    build:
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - 2000:2000
+    env_file:
+      - ./frontend/dev.env
+    networks:
+      - yadokari-network
+
   postgres:
     image: postgres:10.16
     environment:
@@ -38,7 +48,7 @@ services:
   mysql:
     image: mysql:latest
     command: --default-authentication-plugin=mysql_native_password
-    environment: 
+    environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: history
       MYSQL_USER: thibaut
