@@ -10,16 +10,6 @@ import { getAllDoctorFromApi } from '../api/doctor';
 import { History } from '../components/history';
 import { getHistoryFromApi } from '../api/history';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// import the icons you need
-import {
-  faSearch,
-  faAmbulance,
-  faTrash,
-  faFaceAngry
-} from "@fortawesome/free-solid-svg-icons";
-
 type IndexProps = {
   doctors: Array<Doctor>
 } 
