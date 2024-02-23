@@ -1,21 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {Layout} from '../components/layout';
 import { Doctor} from '../interface/doctor';
+import { HistoryModel } from '../interface/history';
 import { DoctorList } from '../components/doctorList';
 import { SearchDoctor } from '../components/searchDoctor';
 import { NearbyDoctor } from '../components/nearbyDoctor';
 import Link from 'next/link';
 import { getAllDoctorFromApi } from '../api/doctor';
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// import the icons you need
-import {
-  faSearch,
-  faAmbulance,
-  faTrash,
-  faFaceAngry
-} from "@fortawesome/free-solid-svg-icons";
+import { History } from '../components/history';
+import { getHistoryFromApi } from '../api/history';
 
 type IndexProps = {
   doctors: Array<Doctor>
@@ -24,95 +17,85 @@ type IndexProps = {
 export default function index({ doctors}:IndexProps) {
 
   const [stateNumber, setStateNumber] = useState(0);
-  /*
-  Previous code used to change className for tabs 
-  
-  const [stateLink, setStateLink] = useState<HTMLAnchorElement | null>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null)*/
-
-  // useEffect(() => {
-  //   setStateLink((prevElement) => {
-  //     if (!prevElement) {
-  //       return linkRef.current;
-  //     }
-  //     return prevElement;
-  //   });
-  // }, [])
-
-  /*useEffect(() => {
-    setStateLink(linkRef.current)
-  }, [])*/
+  const [history, setHistory] = useState([{
+    id: 0,
+    doctorName: '',
+    dateSearched: ''
+  }]);
 
   const handleClick = async (event:React.MouseEvent<HTMLLIElement>, idTab: number) => {
-
-    /*
-    Previous code used to change className for tabs 
-    
-    const fakeLink = event.currentTarget.children[0]
-    if (idTab === stateNumber) {
-      return 
-    }
-    stateLink!.classList.add('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
-    stateLink!.classList.remove('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
-    fakeLink.classList.add('text-blue-600', 'bg-gray-100', 'active', 'dark:bg-gray-800', 'dark:text-blue-500')
-    fakeLink.classList.remove('hover:text-gray-600', 'hover:bg-gray-50', 'dark:hover:bg-gray-800', 'dark:hover:text-gray-300')
-    setStateLink(fakeLink)*/
     setStateNumber(idTab);
-}
+    if (idTab === 3) {
+      fetchHistory();
+    }
+  }
+
+  const fetchHistory = async () => {
+    const res = await getHistoryFromApi();
+    if (res.status === 200) {
+      // const dataHistory = {... history}
+      setHistory(res.history)
+    }
+  }
 
   return (
-    <Layout>
-    <main className="flex min-h-screen flex-col p-8">
-    <FontAwesomeIcon
-    icon={faAmbulance}
-    style={{ fontSize: 12, color: "orange" }}
-/>
-      <FontAwesomeIcon
-        icon={faSearch}
-        style={{ fontSize: 12, color: "blue" }}
-      />
+<Layout>
+<main className="flex min-h-screen flex-col p-8">
+  <h1 className='text-center text-5xl pb-5'>Yadokari</h1>
 
-<FontAwesomeIcon icon={faTrash} />
+  <div className="flex flex-row">
+
+    <div className="basis-1/6"></div>
+
+    <div className="basis-4/6">
+      <ul className="flex text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+        <li className="me-2" onClick={(event) => handleClick(event, 0)}>
+          <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctor List
+          </a>
+        </li>
+        <li className="me-2" onClick={(event) => handleClick(event,1)}>
+          <a href="#" className={`${stateNumber == 1 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctor Search
+          </a>
+        </li>
+        <li className="me-2" onClick={(event) => handleClick(event, 2)}>
+          <a href="#" className={`${stateNumber == 2 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Doctors Nearby
+          </a>
+        </li>
+        <li className="ml-auto" onClick={(event) => handleClick(event, 3)}>
+          <a href="#" className={`${stateNumber == 3 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
+            Search history
+          </a>
+        </li>
+      </ul>
+    </div>
+    
+    <div className="basis-1/6 flex justify-center items-center">
+      <Link href="./create"><button className="border p-3 rounded-lg hover:bg-slate-100">Add a doctor</button></Link>
+    </div>
+  </div>
 
 
-    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+  <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
+    <DoctorList doctors={doctors}/>
+  </div>
 
+  <div className={`${stateNumber == 1 ? '' : 'hidden'}`}>
+    <SearchDoctor/>
+  </div>
 
-    <li className="me-2" onClick={(event) => handleClick(event, 0)}>
-        <a href="#" aria-current="page" className={`${stateNumber == 0 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctor List
-        </a>
-    </li>
-    <li className="me-2" onClick={(event) => handleClick(event,1)}>
-        <a href="#" className={`${stateNumber == 1 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctor Search
-        </a>
-    </li>
-    <li className="me-2" onClick={(event) => handleClick(event, 2)}>
-        <a href="#" className={`${stateNumber == 2 ? 'tib-tab-active' : 'tib-tab-sleep'}`}>
-          Doctors Nearby
-        </a>
-    </li>
-</ul>
+  <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
+    <NearbyDoctor/>
+  </div>
 
-<Link href="./create"> Create </Link>
-
-      <div className={`${stateNumber == 0 ? '' : 'hidden'}`}>
-        <DoctorList doctors={doctors}/>
-      </div>
-
-      <div className={`${stateNumber == 1 ? '' : 'hidden'}`}>
-        <SearchDoctor/>
-      </div>
-
-      <div className={`${stateNumber == 2 ? '' : 'hidden'}`}>
-        <NearbyDoctor/>
-      </div>
-
-    </main>
-    </Layout>
-  );
-
+  <div className={`${stateNumber == 3 ? '' : 'hidden'}`}>
+    <History history={history}/>
+  </div>
+</main>
+</Layout>
+);
 }
 
 export async function getServerSideProps() {

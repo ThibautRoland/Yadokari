@@ -6,13 +6,18 @@ type DoctorListProps = {
 }
 
 export const DoctorList = ({ doctors}: DoctorListProps) => {
-  return     <div>
-  <h1 className="text-3xl"> get all doctors</h1>
+  return     <div className="">
+  <h1 className="text-3xl text-center py-4"> See all doctors</h1>
+  <div className="flex flex-row">
+    <div className="basis-1/12"></div>
 
-  <div className="grid grid-cols-4 space-y-2 gap-2">
-  {doctors.map((d: Doctor, i: number) => (
-            <DoctorCard key = {i} doctor={d}/>
-        )) }
+    <div className="basis-10/12 grid grid-cols-4 space-y-2 gap-2">
+    {doctors.map((d: Doctor, i: number) => (
+              <DoctorCard key = {i} doctor={d}/>
+          )) }
+    </div>
+
+    <div className="basis-1/12"></div>
+  </div>
 </div>
-      </div>
 }

@@ -57,5 +57,28 @@ export async function postDoctor(d : DoctorModel) : Promise<boolean> {
         headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
       });
 
-    return true
+    return response.status === 201
+}
+
+export async function deleteDoctorFromApi(id : number) : Promise<boolean> {
+
+    const url = `http://${API_HOST}:${API_PORT}/doctors/${id}`
+    const response = await fetch(url, {
+        method: 'delete',
+        headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
+      });
+
+    return response.status === 204
+}
+
+export async function putDoctor(d : DoctorModel, id: number) : Promise<boolean> {
+
+    const url = `http://${API_HOST}:${API_PORT}/doctors/${id}`
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(d),
+        headers: {'Content-Type':'application/json', 'yadokari_admin':'true'},
+      });
+
+    return response.status === 201
 }
